@@ -1,0 +1,121 @@
+github_token: "********"
+proxy: "127.0.0.1:5555"
+try_times: 3
+install_type: "soft"
+home_path: "/home/user"
+config_path: "/home/user/.config"
+bin_path:
+  common: "/usr/local/bin"
+  nvim:
+    install: "{home}/.tools"
+    bin: "bin/nvim"
+download:
+  enable: true
+install:
+  enable: true
+software:
+  eza:
+    username: "eza-community"
+    repo: "eza"
+    link_format:
+      win: "eza.exe_x86_64-pc-windows-gnu.tar.gz"
+      mac:
+      linux: "eza_x86_64-unknown-linux-musl.tar.gz"
+  bat:
+    username: "sharkdp"
+    repo: "bat"
+    link_format:
+      win: "bat-{version}-x86_64-pc-windows-gnu.zip"
+      mac: "bat-{version}-x86_64-apple-darwin.tar.gz"
+      linux: "bat-{version}-x86_64-unknown-linux-musl.tar.gz"
+  fd:
+    username: "sharkdp"
+    repo: "fd"
+    link_format:
+      win: "fd-{version}-x86_64-pc-windows-gnu.zip"
+      mac: "fd-{version}-x86_64-apple-darwin.tar.gz"
+      linux: "fd-{version}-x86_64-unknown-linux-musl.tar.gz"
+  rg:
+    username: "BurntSushi"
+    repo: "ripgrep"
+    link_format:
+      win: "ripgrep-{version}-x86_64-pc-windows-gnu.zip"
+      mac: "ripgrep-{version}-x86_64-apple-darwin.tar.gz"
+      linux: "ripgrep-{version}-x86_64-unknown-linux-musl.tar.gz"
+  btm:
+    username: "ClementTsang"
+    repo: "bottom"
+    link_format:
+      win: "bottom_x86_64-pc_windows-gnu.zip"
+      mac: "bottom_x86_64-apple-darwin.tar.gz"
+      linux: "bottom_x86_64-unknown-linux-musl.tar.gz"
+  mdbook:
+    username: "rust-lang"
+    repo: "mdbook"
+    link_format:
+      win: "mdbook-{version}-x86_64-pc-windows-msvc.zip"
+      mac: "mdbook-{version}-x86_64-apple-darwin.tar.gz"
+      linux: "mdbook-{version}-x86_64-unknown-linux-musl.tar.gz"
+  tokei:
+    username: "XAMPPRocky"
+    repo: "tokei"
+    link_format:
+      win: "tokei-x86_64-pc-windows-msvc.exe"
+      mac: "tokei-x86_64-apple-darwin.tar.gz"
+      linux: "tokei-x86_64-unknown-linux-musl.tar.gz"
+  fzf:
+    username: "junegunn"
+    repo: "fzf"
+    link_format:
+      win: "fzf-{version}-windows_amd64.zip"
+      mac: "fzf-{version}-darwin_arm64.zip"
+      linux: "fzf-{version}-linux_amd64.tar.gz"
+  nvim:
+    username: "neovim"
+    repo: "neovim"
+    link_format:
+      win: "nvim-win64.zip"
+      mac: "nvim-macos.tar.gz"
+      linux: "nvim-linux64.tar.gz"
+config:
+  enable: true
+  nvim:
+    enable: true
+    config_path: "{config_path}/nvim"
+    root_path: "{root_path}/nvim"
+  fzf:
+    enable: true
+    config_path: "{config_path}/fzf"
+    root_path: "{root_path}/fzf"
+  alacritty:
+    enable: true
+    config_path: "{config_path}/alacritty"
+    root_path: "{root_path}/alacritty"
+  btm:
+    enable: true
+    config_path: "{config_path}/bottom"
+    root_path: "{root_path}/bottom"
+  clash:
+    enable: true
+    config_path: "{config_path}/clash"
+    root_path: "{root_path}/clash"
+  tmux:
+    enable: true
+    config_path: "{home_path}/.tmux.conf"
+    root_path: "{root_path}/tmux/tmux.conf"
+  wezterm:
+    enable: true
+    config_path: "{config_path}/wezterm"
+    root_path: "{root_path}/wezterm"
+  rio:
+    enable: true
+    config_path: "{config_path}/rio"
+    root_path: "{root_path}/rio"
+  zsh:
+    enable: true
+    config_path: "{config_path_path}/zsh"
+    root_path: "{root_path}/zsh"
+  zshrc:
+    enable: true
+    config_path: "{home_path}/.zshrc"
+    root_path: "{root_path}/zsh/zshrc"

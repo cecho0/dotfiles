@@ -1,0 +1,14 @@
+{
+    "Print Author Message": {
+      "prefix": "author",
+      "body": [
+        "${BLOCK_COMMENT_START}",
+        "    Author: ${1|Cecho,Lijinlin|}",
+        "    Date: ${CURRENT_YEAR}/${CURRENT_MONTH}/${CURRENT_DATE}",
+        "    Summary: $2",
+        "${BLOCK_COMMENT_END}",
+        "$0"
+      ],
+      "description": "Output Author Message"
+    }
+}

@@ -1,0 +1,2 @@
+-- require("modules.lsp.snippets.c")
+-- require("modules.lsp.snippets.cpp")

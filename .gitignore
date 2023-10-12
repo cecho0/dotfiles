@@ -1,0 +1,6 @@
+nvim/.cache
+nvim/plugin/
+clash/clash_url.sh
+.luarc.json
+antidote/
+zsh_plugins.zsh

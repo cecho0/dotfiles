@@ -1,0 +1,14 @@
+# this file copy to /lib/systemd/system/clash.service
+[Unit]
+Description=clash daemon
+After=network.target
+
+[Service]
+Type=simple
+User=cecho
+ExecStart=/usr/bin/bash /home/cecho/.config/clash/clash_start.sh
+ExecStop=/usr/bin/bash /home/cecho/.config/clash/clash_stop.sh
+
+[Install]
+WantedBy=multi-user.target
+

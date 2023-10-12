@@ -1,0 +1,169 @@
+cursor = '|'
+blinking-cursor = true
+ignore_theme_selection_fg_color = false
+performance = "High"
+
+# more themes see https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/rio
+theme = "Atom"
+
+padding-x = 0
+option-as-alt = "both"
+
+[window]
+width = 600
+height = 400
+mode = "Windowed"
+
+# Background configuration
+#
+# • opacity - changes the background transparency state
+#   Default: 1.0
+#
+# • mode - defines background mode bewteen "Color" and "Image"
+#
+# • image - Set an image as background
+#   Default: None
+#
+# Example
+# [background]
+# mode = "Image"
+# opacity = 1.0
+#
+# [background.image]
+# path = "/Users/rapha/Desktop/eastward.jpg"
+# width = 200.0
+# height = 200.0
+# x = 0.0
+# y = 0.0
+
+# Window Height
+#
+# window-height changes the inital window height.
+#   Default: 400
+#
+# Example
+window-height = 1000
+
+# Fonts
+
+[fonts]
+size = 18
+
+[fonts.regular]
+family = "ComicMono Nerd Font"
+style = "normal"
+weight = 400
+
+[fonts.bold]
+family = "ComicMono Nerd Font"
+style = "normal"
+weight = 800
+
+[fonts.italic]
+family = "CaskaydiaMono Nerd Font"
+style = "italic"
+weight = 400
+
+[fonts.bold-italic]
+family = "CaskaydiaMono Nerd Font"
+style = "italic"
+weight = 800
+
+[navigation]
+mode = "CollapsedTab"
+clickable = true
+use-current-path = false
+color-automation = [
+    { program = "nvim", color = "#FFFF00" }
+]
+macos-hide-window-buttons = false
+
+# Shell
+#shell = { program = "/bin/fish", args = ["--login"] }
+#shell = { program = "nu" }
+
+# Startup directory
+#
+# Directory the shell is started in. If this is unset the working
+# directory of the parent process will be used.
+#
+# This configuration only has effect if use-fork is disabled
+#
+# Example
+working-dir = "C:\\Users\\AI"
+
+# Environment variables
+#
+# The example below sets fish as the default SHELL using env vars
+# please do not copy this if you do not need
+#
+# Example
+#   env-vars = []
+
+# Disable render when unfocused
+#
+# This property disable renderer processes while Rio is unfocused.
+#
+# Example
+#   disable-renderer-when-unfocused = false
+
+# Use fork
+#
+# Defaults for POSIX-based systems (Windows is not configurable):
+# MacOS: spawn processes
+# Linux/BSD: fork processes
+#
+# Example
+use-fork = false
+
+[bindings]
+keys = [
+    # cancel default keymap
+    { key = ",", with = "control | shift", action = "None" },
+    { key = "c", with = "control | shift", action = "None" },
+    { key = "v", with = "control | shift", action = "None" },
+    { key = "n", with = "control | shift", action = "None" },
+    { key = "t", with = "control | shift", action = "None" },
+    { key = "]", with = "control | shift", action = "None" },
+    { key = "[", with = "control | shift", action = "None" },
+    { key = "tab", with = "control", action = "None" },
+    { key = "+", with = "control", action = "None" },
+    { key = "-", with = "control", action = "None" },
+    { key = "0", with = "control", action = "None" },
+    { key = "w", with = "control | shift", action = "None" },
+
+    # custom keymap
+    # base
+    { key = ",", with = "control | shift", action = "OpenConfigEditor" },
+
+    # font
+    { key = "+", with = "control", action = "IncreaseFontSize" },
+    { key = "-", with = "control", action = "DecreaseFontSize" },
+    { key = "0", with = "control", action = "ResetFontSize" },
+
+    # copy and paste
+    { key = "c", with = "control | shift", action = "Copy" },
+    { key = "v", with = "control | shift", action = "Paste" },
+
+    # window
+    { key = "return", with = "control", action = "CreateWindow" },
+    { key = "f4", with = "control", action = "Quit" },
+
+    # tab
+    { key = "t", with = "control | shift", action = "CreateTab" },
+    { key = "x", with = "control | shift", action = "CloseTab" },
+    { key = "]", with = "control", action = "SelectPrevTab" },
+    { key = "[", with = "control", action = "SelectNextTab" },
+
+    # pane
+    #{ key = "q", with = "control", action = "SplitHorizontally" }
+    #{ key = "|", with = "control", action = "SplitVertically" }
+    #{ key = "|", with = "control", action = "ClosePane" }
+
+    # move
+    #{ key = "q", with = "control | shift", action = "ScrollPageUp" }
+
+]
+
+[developer]
+log-level = "OFF"
