@@ -1,4 +1,4 @@
-github_token: "********"
+github_token: "**your_token**"
 proxy: "127.0.0.1:5555"
 try_times: 3
 install_type: "soft"
@@ -113,7 +113,7 @@ config:
     root_path: "{root_path}/rio"
   zsh:
     enable: true
-    config_path: "{config_path_path}/zsh"
+    config_path: "{config_path}/zsh"
     root_path: "{root_path}/zsh"
   zshrc:
     enable: true

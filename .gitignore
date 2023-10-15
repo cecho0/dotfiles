@@ -1,3 +1,4 @@
+config.yml
 nvim/.cache
 nvim/plugin/
 clash/clash_url.sh

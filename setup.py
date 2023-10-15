@@ -96,7 +96,7 @@ def load_config():
             if not os.path.exists(global_config["home_path"]):
                 error_log(f"home path format error")
                 sys.exit()
-            
+
             if not os.path.exists(global_config["config_path"]):
                 os.mkdir(global_config["config_path"])
 
@@ -107,10 +107,14 @@ def load_config():
 
 def check_command(cmd):
     try:
-        result = subprocess.run(["which", cmd], stdout  = subprocess.PIPE, stderr = subprocess.PIPE, text = True)
-        if result.returncode == 0:
+        if shutil.which(cmd) is not None:
             return True
-        return False
+        else:
+            return False
+        #result = subprocess.run(["which", cmd], stdout  = subprocess.PIPE, stderr = subprocess.PIPE, text = True)
+        #if result.returncode == 0:
+        #    return True
+        #return False
     except Exception as e:
         error_log(f"check command error: {e}")
         return False
