@@ -1,5 +1,5 @@
-github_token: "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"
-proxy: "192.168.3.100:7890"
+github_token: "your_github_token"
+proxy: "your_proxy_address"
 try_times: 3
 install_type: "soft"
 bin_path:
