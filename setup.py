@@ -5,6 +5,7 @@ import traceback
 import yaml
 import platform
 import requests
+import pwd
 import os
 import sys
 import shutil
@@ -24,6 +25,7 @@ proxy = {
 }
 
 global_config = {
+    "user": os.getlogin(),
     "arch": platform.machine(),
     "system": platform.system(),
     "tmp_path": os.path.dirname(os.path.realpath(__file__)) + "/.tmp_cache",
@@ -90,8 +92,9 @@ def load_config():
                 proxy["http"] = f"http://{url}"
                 proxy["https"] = f"http://{url}"
             global_config["install_type"] = data["install_type"]
-            global_config["home_path"] = data["home_path"]
-            global_config["config_path"] = data["config_path"]
+            user = pwd.getpwnam(global_config["user"])
+            global_config["home_path"] = user.pw_dir
+            global_config["config_path"] = user.pw_dir + "/.config"
 
             if not os.path.exists(global_config["home_path"]):
                 error_log(f"home path format error")
@@ -107,17 +110,23 @@ def load_config():
 
 def check_command(cmd):
     try:
-        if shutil.which(cmd) is not None:
+        result = subprocess.run(["which", cmd], stdout  = subprocess.PIPE, stderr = subprocess.PIPE, text = True)
+        if result.returncode == 0:
             return True
-        else:
-            return False
-        #result = subprocess.run(["which", cmd], stdout  = subprocess.PIPE, stderr = subprocess.PIPE, text = True)
-        #if result.returncode == 0:
-        #    return True
-        #return False
+        return False
     except Exception as e:
         error_log(f"check command error: {e}")
         return False
+
+def mod_uid_gid(dst, uid, gid):
+    os.chown(dst, uid, gid)
+
+    if os.path.isdir(dst):
+        for root, dirs, files in os.walk(dst):
+            for dir in dirs:
+                os.chown(os.path.join(root, dir), uid, gid)
+            for file in files:
+                os.chown(os.path.join(root, file), uid, gid)
 
 def get_file_size(url):
     file_response = None
@@ -335,21 +344,21 @@ def install(data):
 
                 if not os.path.exists(sp_path):
                     os.mkdir(sp_path)
-                print(sp_path)
-                print(sp_path + "/" + filename)
                 ins_dst = sp_path + "/" + filename
                 if os.path.exists(ins_dst) and os.path.isdir(ins_dst):
                     shutil.rmtree(ins_dst)
 
                 shutil.move(global_config["tmp_bin_path"] + "/" + filename, ins_dst)
-                
+                user = pwd.getpwnam(global_config["user"])
+                mod_uid_gid(ins_dst, user.pw_uid, user.pw_gid)
 
                 link_src = sp_path + "/" + filename + "/" + sp_list[filename]["bin"]
-                print(link_src)
-                print(bin_path + "/" + filename)
                 os.symlink(link_src, bin_path + "/" + filename)
+                mod_uid_gid(link_src, user.pw_uid, user.pw_gid)
+
             else:
                 shutil.move(global_config["tmp_bin_path"] + "/" + filename, bin_path + "/" + filename)
+                mod_uid_gid(bin_path + "/" + filename, user.pw_uid, user.pw_gid)
 
     except OSError as e:
         error_log(f"OS error: {e}")
@@ -365,6 +374,7 @@ def config_install(data):
     if not data["config"]["enable"]:
         return
 
+    user = pwd.getpwnam(global_config["user"])
     for key in data["config"]:
         if key == "enable":
             continue
@@ -387,8 +397,10 @@ def config_install(data):
         try:
             if global_config["install_type"] == "soft":
                 os.symlink(root_path, config_path)
+                os.lchown(config_path, user.pw_uid, user.pw_gid)
             if global_config["install_type"] == "hard":
                 shutil.copy(root_path, config_path)
+                mod_uid_gid(config_path, user.pw_uid, user.pw_gid)
         except OSError as e:
             error_log(f"create soft link failed, error: {e}")
     success_log("configure install finished.")
