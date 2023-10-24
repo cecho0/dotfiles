@@ -109,7 +109,7 @@ vim.opt.cursorcolumn   = false
 
 -- complete
 vim.opt.complete       = ".,w,b,k"
-vim.opt.completeopt    = "menu,menuone,noselect"
+vim.opt.completeopt    = "menu,menuone,noinsert"
 vim.opt.inccommand     = "nosplit"
 
 -- command mode complete

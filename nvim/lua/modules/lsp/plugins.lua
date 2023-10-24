@@ -10,13 +10,6 @@ package({
 })
 
 package({
-  "williamboman/mason.nvim",
-  config = conf.mason,
-  cmd = "Mason",
-  enabled = env.enable_plugin and env.enable_lsp,
-})
-
-package({
   "glepnir/lspsaga.nvim",
   ft = env.ft_enable,
   config = conf.lspsaga,

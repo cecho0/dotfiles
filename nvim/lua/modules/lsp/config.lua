@@ -83,32 +83,6 @@ function config.nvim_lspconfig()
   end
 end
 
-function config.mason()
-  local env = require "core.env"
-  require("mason").setup({
-    ui = {
-      border = "rounded",
-      icons = {
-        package_installed = "✓",
-        package_pending = "➜",
-        package_uninstalled = "✗"
-      }
-    },
-    install_root_dir = env:join_path(env.data_home, "mason"),
-    border = "rounded",
-    pip = {
-        -- Example: { "--proxy", "https://proxyserver" }
-        install_args = {},
-    },
-
-    log_level = vim.log.levels.INFO,
-    max_concurrent_installers = 4,
-    github = {
-        download_url_template = "https://github.com/%s/releases/download/%s/%s",
-    },
-  })
-end
-
 function config.lspsaga()
   local saga = require("lspsaga")
 
