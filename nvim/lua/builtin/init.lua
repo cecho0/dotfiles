@@ -11,5 +11,6 @@ if env.enable_plugin then
   return
 end
 
+require("builtin.complete")
 require("builtin.term").setup()
 vim.cmd("silent! colorscheme oxygen")
