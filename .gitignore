@@ -2,6 +2,12 @@ config.yml
 nvim/.cache
 nvim/plugin/
 clash/clash_url.sh
+emacs/auto-save-list
+emacs/elpa
+emacs/eshell
+emacs/history
+emacs/projectile-bookmarks.eld
+emacs/projectile.cache
 .luarc.json
 antidote/
 zsh_plugins.zsh
