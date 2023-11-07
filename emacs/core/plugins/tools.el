@@ -9,7 +9,7 @@
   ("s-p" . projectile-command-map)
   ("C-c p" . projectile-command-map))
   :config
-  (setq projectile-indexing-method 'hybrid)
+  ;(setq projectile-indexing-method 'hybrid)
   (setq projectile-sort-order 'recently-active)
   (setq projectile-file-exists-local-cache-expire (* 10 60))
   (setq projectile-file-exists-remote-cache-expire (* 10 60)))
