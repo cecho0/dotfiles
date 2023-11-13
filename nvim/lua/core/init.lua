@@ -21,14 +21,10 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_netrwSettings = 1
 vim.g.loaded_netrwFileHandlers = 1
 
-if vim.g.vscode then
-  require("core.vscode")
-else
-  require("core.options")
-  require("core.cmd")
-  require("keymap")
-  require("builtin")
-  require("core.pack"):init_plugins()
-  require("core.third_client")
-end
+require("core.options")
+require("core.cmd")
+require("keymap")
+require("builtin")
+require("core.pack"):init_plugins()
+require("core.third_client")
 

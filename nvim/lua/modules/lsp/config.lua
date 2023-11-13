@@ -2,8 +2,8 @@ local config = {}
 
 function config.nvim_lspconfig()
   local lspconfig = require("lspconfig")
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
   local signs = {
     Error = " ",
@@ -71,7 +71,7 @@ function config.nvim_lspconfig()
     serv_options.flags = {
       debounce_text_changes = 150
     }
-    -- serv_options.capabilities = capabilities
+    serv_options.capabilities = capabilities
     lspconfig[server].setup(serv_options)
   end
 
@@ -150,7 +150,7 @@ function config.lspsaga()
 
   local keymap = vim.keymap.set
   keymap("n", "gf", "<cmd>Lspsaga finder def+ref+imp<CR>")
-  keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
+  keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>", { silent = true })
   keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
   keymap("n", "go", "<cmd>Lspsaga code_action<CR>", { silent = true })
   keymap("v", "<leader>go", "<cmd><C-U>Lspsaga range_code_action<CR>", { silent = true })

@@ -79,16 +79,17 @@ local function path_sep()
   return uv.os_uname().sysname == "Windows_NT" and "\\" or "/"
 end
 
+local ok, devicon = pcall(require, "nvim-web-devicons")
+local icon, color
 function pd.fileicon()
-  local ok, devicon = pcall(require, "nvim-web-devicons")
-  local icon, color
-
   return {
     stl = function()
       if ok then
         icon, color = devicon.get_icon_color_by_filetype(vim.bo.filetype, { default = true })
         api.nvim_set_hl(0, "Whiskyfileicon", { bg = stl_bg, fg = color })
         return icon .. " "
+      else
+        ok, devicon = pcall(require, "nvim-web-devicons")
       end
       return ""
     end,

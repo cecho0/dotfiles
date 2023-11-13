@@ -19,7 +19,7 @@ local function default()
     p.space(),
     p.mode(),
     p.space(),
-    -- p.fileicon(),
+    p.fileicon(),
     p.fileinfo(),
     p.modified(),
     --
