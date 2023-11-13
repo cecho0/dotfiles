@@ -1,7 +1,7 @@
 
 -- font family and size
 local function neovide_font()
-  vim.o.guifont = "ComicMono Nerd Font:h13"
+  vim.o.guifont = "OperatorMono Nerd Font:h13"
   vim.g.neovide_scale_factor = 1.0
   -- cursor size
   vim.g.neovide_cursor_unfocused_outline_width = 0.125
