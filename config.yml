@@ -93,10 +93,6 @@ config:
     enable: true
     config_path: "{config_path}/bottom"
     root_path: "{root_path}/bottom"
-  clash:
-    enable: true
-    config_path: "{config_path}/clash"
-    root_path: "{root_path}/clash"
   tmux:
     enable: true
     config_path: "{home_path}/.tmux.conf"
