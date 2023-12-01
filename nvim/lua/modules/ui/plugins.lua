@@ -25,3 +25,10 @@ package({
   enabled = env.enable_plugin,
 })
 
+package({
+  "gorbit99/codewindow.nvim",
+  event = "BufEnter",
+  config = conf.codewindow,
+  enabled = env.enable_plugin,
+})
+

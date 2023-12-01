@@ -41,4 +41,9 @@ function config.deadcolumn()
   require("deadcolumn").setup()
 end
 
+function config.codewindow()
+  local codewindow = require("codewindow")
+  codewindow.setup()
+end
+
 return config

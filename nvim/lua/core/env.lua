@@ -45,6 +45,8 @@ function M:load_variables()
     "proto",
     "dockerfile"
   }
+  
+  vim.opt.runtimepath:append(self:join_path(self.config_home, "lua", "core"))
 end
 
 M:load_variables()

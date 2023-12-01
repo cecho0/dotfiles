@@ -218,12 +218,12 @@ function M.create_autocmd()
   local LoadSessGrp = vim.api.nvim_create_augroup("LoadSess", { clear = true })
   local SaveSessGrp = vim.api.nvim_create_augroup("SaveSess", { clear = true })
 
-  vim.api.nvim_create_autocmd("UIEnter", {
+  vim.api.nvim_create_autocmd("VimEnter", {
     group = LoadSessGrp,
     pattern = "*",
     once = true,
     callback = function()
-      vim.g.project = vim.fn.resolve(vim.fn.fnamemodify("", ":p"))
+      vim.g.project = vim.fn.resolve(vim.fn.fnamemodify(vim.fn.expand("%:p"), ":p:h"))
       vim.g.root = vim.uv.cwd()
       vim.g.main_file = vim.fn.resolve(vim.fn.expand("%:p"))
 
