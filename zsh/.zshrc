@@ -1,15 +1,14 @@
 #!/bin/zsh
 
 # proxy
-base_proxy=172.17.80.1:7890
+base_proxy=127.0.0.1:7890
 
 # alias
 alias l='ls --color'
 alias ls='ls --color'
 alias la='ls -a --color'
 alias ll='ls -a -l --color'
-alias rvim='\nvim --headless --listen localhost:6666'
-alias nvim='export NVIM_APPNAME="" && \nvim'
+alias rvim='nvim --headless --listen 0.0.0.0:6666'
 alias reload="source ~/.zshrc"
 alias proxy="export http_proxy=http://$base_proxy;export https_proxy=http://$base_proxy;export ALL_PROXY=socks5://$base_proxy"
 alias unproxy="unset http_proxy;unset https_proxy;unset ALL_PROXY"
@@ -24,21 +23,18 @@ export XDG_CONFIG_DIR="/etc/xdg"
 export XDG_DATA_DIR="/usr/local/share/:/usr/share/"
 export USER_TOOLS_HOME="$HOME/.tools"
 
-# this path is used for nvim
-PathAppend ${XDG_DATA_HOME}/nvim/site/mason/bin
-
 # Antidote
-export ANTIDOTE_HOME=$XDG_CACHE_HOME/antidote
 export ZDOTDIR=${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}
+export ANTIDOTE_HOME=${ZDOTDIR}/antidote
 
 zsh_plugins=${ZDOTDIR}/zsh_plugins.zsh
 [[ -f ${zsh_plugins:r}.txt ]] || touch ${zsh_plugins:r}.txt
-if [ ! -d ${ZDOTDIR}/antidote ]; then
-    git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/antidote
+if [ ! -d ${ANTIDOTE_HOME} ]; then
+    git clone --depth=1 https://github.com/mattmc3/antidote.git ${ANTIDOTE_HOME}
 fi
 
-if [ -d ${ZDOTDIR}/antidote ]; then
-    fpath+=(${ZDOTDIR:-~}/antidote)
+if [ -d ${ANTIDOTE_HOME} ]; then
+    fpath+=(${ANTIDOTE_HOME})
     autoload -Uz $fpath[-1]/antidote
 
     if [[ ! $zsh_plugins -nt ${zsh_plugins:r}.txt ]]; then
