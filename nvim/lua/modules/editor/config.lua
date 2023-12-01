@@ -66,7 +66,7 @@ function config.sentiment()
 end
 
 function config.autopairs()
-  require('ultimate-autopair').setup()
+  require("ultimate-autopair").setup()
 end
 
 function config.nvim_treesitter()

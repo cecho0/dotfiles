@@ -16,8 +16,22 @@ local function map(mode, key, action, options)
   end
 end
 
--- tagbar
+-- lspsaga
+map("n", "gf", "<cmd>Lspsaga finder def+ref+imp<CR>", opt)
+map("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opt)
+map("n", "K", "<cmd>Lspsaga hover_doc<CR>", opt)
+map("n", "go", "<cmd>Lspsaga code_action<CR>", opt)
+map("v", "<leader>go", "<cmd><C-U>Lspsaga range_code_action<CR>", opt)
+map({"n", "v"}, "gr", "<cmd>Lspsaga rename<CR>", opt)
+map("n", "<leader>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", opt)
+map("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opt)
+map("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opt)
+map("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opt)
 map({"n", "i", "v"}, "<F2>", "<CMD>Lspsaga outline<CR>", opt)
+map({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", opt)
+
+-- codewindow
+map("n", "<F3>", '<CMD>lua require("codewindow").toggle_minimap()', opt )
 
 -- telescope
 map("n", "<leader>fd", "<CMD>Telescope live_grep<CR>", opt)

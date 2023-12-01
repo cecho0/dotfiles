@@ -32,3 +32,10 @@ package({
   enabled = env.enable_plugin,
 })
 
+package({
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  config = conf.which_key,
+  enabled = env.enable_plugin,
+})
+

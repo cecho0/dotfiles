@@ -46,4 +46,13 @@ function config.codewindow()
   codewindow.setup()
 end
 
+function config.which_key()
+  require("which-key").setup({
+    window = {
+      border = "single",
+      position = "bottom",
+    },
+  })
+end
+
 return config

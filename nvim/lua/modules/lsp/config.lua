@@ -147,29 +147,6 @@ function config.lspsaga()
       }
     },
   })
-
-  local keymap = vim.keymap.set
-  keymap("n", "gf", "<cmd>Lspsaga finder def+ref+imp<CR>")
-  keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>", { silent = true })
-  keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-  keymap("n", "go", "<cmd>Lspsaga code_action<CR>", { silent = true })
-  keymap("v", "<leader>go", "<cmd><C-U>Lspsaga range_code_action<CR>", { silent = true })
-
-  keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
-  keymap("v", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
-
-  keymap("n", "<leader>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
-
-  keymap("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
-
-  keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
-  keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
-
-  -- Outline
-  --keymap("n","<F2>", "<cmd>LSoutlineToggle<CR>",{ silent = true })
-
-  -- terminal
-  keymap({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", { silent = true })
 end
 
 function config.nvim_cmp()
