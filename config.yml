@@ -109,3 +109,7 @@ config:
     enable: true
     config_path: "{config_path}/zsh"
     root_path: "{root_path}/zsh"
+  zshrc:
+    enable: true
+    config_path: "{home_path}/.zshrc"
+    root_path: "{root_path}/zsh/.zshrc"
