@@ -100,11 +100,11 @@ export NVM_IOJS_ORG_MIRROR="http://npm.taobao.org/mirrors/iojs"
 export JAVA_HOME=$USER_TOOLS_HOME/jdk-21
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 PathAppend $JAVA_HOME/bin
+unset PathAppend
 
-# XMake
+# XMAKE
 [ -f $HOME/.xmake/profile ] && source $HOME/.xmake/profile
 
 # VCPKG
 [ $(command -v vcpkg) ] && export VCPKG_ROOT=$USER_TOOLS_HOME/vcpkg
-[ $(command -v pgk_config) ] && export PKG_CONFIG_PATH=$VCPKG_ROOT/installed/x64-linux/lib/pkgconfig
-unset PathAppend
+[ $(command -v pkg-config) ] && export PKG_CONFIG_PATH=$VCPKG_ROOT/installed/x64-linux/lib/pkgconfig
