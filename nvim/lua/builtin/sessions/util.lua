@@ -1,5 +1,6 @@
 local env = require("core.env")
 local config = require("builtin.sessions.config")
+local api = vim.api
 local M = {}
 
 function M.check_dir_valid()
@@ -42,8 +43,8 @@ end
 
 function M.save_buffers()
   local unsave_bufs = vim.tbl_filter(function(bufnr)
-    return vim.api.nvim_buf_get_option(bufnr, "modified") and vim.api.nvim_buf_get_option(bufnr, "buflisted")
-  end, vim.api.nvim_list_bufs())
+    return api.nvim_buf_get_option(bufnr, "modified") and api.nvim_buf_get_option(bufnr, "buflisted")
+  end, api.nvim_list_bufs())
 
   if #unsave_bufs > 0 then
     vim.cmd("wa")

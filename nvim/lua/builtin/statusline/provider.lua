@@ -311,8 +311,8 @@ end
 function pd.encoding()
   local result = {
     stl = function()
-      local bufnr = vim.api.nvim_get_current_buf()
-      if vim.api.nvim_buf_is_valid(bufnr) then
+      local bufnr = api.nvim_get_current_buf()
+      if api.nvim_buf_is_valid(bufnr) then
         return tostring(vim.bo[bufnr].fileencoding)
       end
 

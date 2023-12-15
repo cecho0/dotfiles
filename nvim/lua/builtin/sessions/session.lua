@@ -1,5 +1,6 @@
 local env = require("core.env")
 local util = require("builtin.sessions.util")
+local api = vim.api
 local M = {}
 
 local function session_delete(session)
@@ -167,7 +168,7 @@ end
 
 function M.create_usercmd()
   -- session delete
-  vim.api.nvim_create_user_command("SessionDelete", function(args)
+  api.nvim_create_user_command("SessionDelete", function(args)
     session_delete(args.args)
   end, {
     nargs = "?",
@@ -175,7 +176,7 @@ function M.create_usercmd()
   })
 
   -- session save
-  vim.api.nvim_create_user_command("SessionSave", function(args)
+  api.nvim_create_user_command("SessionSave", function(args)
     session_save(args.args)
   end, {
     nargs = "?",
@@ -183,7 +184,7 @@ function M.create_usercmd()
   })
 
   -- session load
-  vim.api.nvim_create_user_command("SessionLoad", function(args)
+  api.nvim_create_user_command("SessionLoad", function(args)
     session_load(args.args)
   end, {
     nargs = "?",
@@ -191,7 +192,7 @@ function M.create_usercmd()
   })
 
   -- session rename
-  vim.api.nvim_create_user_command("SessionRename", function(args)
+  api.nvim_create_user_command("SessionRename", function(args)
     local arg_list = vim.split(args.args, " ", { trimempty = true } )
     session_rename(arg_list[1], arg_list[2])
   end, {
@@ -200,7 +201,7 @@ function M.create_usercmd()
   })
 
   -- session new project
-  vim.api.nvim_create_user_command("SessionNewProject", function(args)
+  api.nvim_create_user_command("SessionNewProject", function(args)
     local arg_list = vim.split(args.args, " ", { trimempty = true } )
     session_new_project(arg_list[1], arg_list[2])
   end, {
@@ -209,16 +210,16 @@ function M.create_usercmd()
   })
 
   -- edit nvim config
-  vim.api.nvim_create_user_command("EditConfig", function()
+  api.nvim_create_user_command("EditConfig", function()
     edit_config()
   end, {})
 end
 
 function M.create_autocmd()
-  local LoadSessGrp = vim.api.nvim_create_augroup("LoadSess", { clear = true })
-  local SaveSessGrp = vim.api.nvim_create_augroup("SaveSess", { clear = true })
+  local LoadSessGrp = api.nvim_create_augroup("LoadSess", { clear = true })
+  local SaveSessGrp = api.nvim_create_augroup("SaveSess", { clear = true })
 
-  vim.api.nvim_create_autocmd("VimEnter", {
+  api.nvim_create_autocmd("VimEnter", {
     group = LoadSessGrp,
     pattern = "*",
     once = true,
@@ -241,7 +242,7 @@ function M.create_autocmd()
     end,
   })
 
-  vim.api.nvim_create_autocmd("VimLeavePre", {
+  api.nvim_create_autocmd("VimLeavePre", {
     group = SaveSessGrp,
     pattern = "*",
     once = true,

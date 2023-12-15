@@ -1,5 +1,6 @@
 local cfg = require("builtin.notify.config")
 local history = require("builtin.notify.history")
+local api = vim.api
 local M = {}
 local local_M = {}
 local cache = {}
@@ -19,9 +20,9 @@ end
 
 local function check_ui_valid()
   if local_M.winid
-      and vim.api.nvim_win_is_valid(local_M.winid)
+      and api.nvim_win_is_valid(local_M.winid)
       and local_M.bufnr
-      and vim.api.nvim_buf_is_valid(local_M.bufnr) then
+      and api.nvim_buf_is_valid(local_M.bufnr) then
     return true
   else
     return false
@@ -34,8 +35,8 @@ local function create_win()
     return
   end
 
-  local_M.bufnr = vim.api.nvim_create_buf(false, true)
-  local success, winid = pcall(vim.api.nvim_open_win, local_M.bufnr, false, {
+  local_M.bufnr = api.nvim_create_buf(false, true)
+  local success, winid = pcall(api.nvim_open_win, local_M.bufnr, false, {
     focusable = false,
     style = "minimal",
     border = "none",
@@ -51,19 +52,19 @@ local function create_win()
 
   if success then
     local_M.winid = winid
-    if vim.api.nvim_win_set_hl_ns then
-      vim.api.nvim_win_set_hl_ns(local_M.winid, cfg.hl_grp.ns_id)
+    if api.nvim_win_set_hl_ns then
+      api.nvim_win_set_hl_ns(local_M.winid, cfg.hl_grp.ns_id)
     end
   end
 end
 
 local function delete_win()
-  if local_M.winid and vim.api.nvim_win_is_valid(local_M.winid) then
-    vim.api.nvim_win_close(local_M.winid, { force = true })
+  if local_M.winid and api.nvim_win_is_valid(local_M.winid) then
+    api.nvim_win_close(local_M.winid, { force = true })
   end
 
-  if local_M.bufnr and vim.api.nvim_buf_is_valid(local_M.bufnr) then
-    vim.api.nvim_buf_delete(local_M.bufnr, { force = true })
+  if local_M.bufnr and api.nvim_buf_is_valid(local_M.bufnr) then
+    api.nvim_buf_delete(local_M.bufnr, { force = true })
   end
 
   local_M.winid = nil
@@ -130,11 +131,11 @@ local function redraw()
       lines[#lines + 1] = line
     end
   end
-  vim.api.nvim_win_set_height(local_M.winid, line_num)
-  vim.api.nvim_buf_clear_namespace(local_M.bufnr, cfg.hl_grp.ns_id, 0, -1)
-  vim.api.nvim_buf_set_lines(local_M.bufnr, 0, -1, false, lines)
+  api.nvim_win_set_height(local_M.winid, line_num)
+  api.nvim_buf_clear_namespace(local_M.bufnr, cfg.hl_grp.ns_id, 0, -1)
+  api.nvim_buf_set_lines(local_M.bufnr, 0, -1, false, lines)
   for i = 1, line_num, 1 do
-    vim.api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, cfg.hl_grp.ns_name .. "Content", i - 1, 0, -1)
+    api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, cfg.hl_grp.ns_name .. "Content", i - 1, 0, -1)
   end
 end
 
@@ -159,7 +160,7 @@ function M.pop_msg()
 end
 
 function M.create_autocmd()
-  vim.api.nvim_create_autocmd("VimResized", {
+  api.nvim_create_autocmd("VimResized", {
     group = cfg.hl_grp.ns_id,
     callback = function()
       delete_win()
@@ -168,11 +169,11 @@ function M.create_autocmd()
 end
 
 function M.create_usercmd()
-  vim.api.nvim_create_user_command("NotifyHistoryShow", function(args)
+  api.nvim_create_user_command("NotifyHistoryShow", function(args)
     history.history_toggle()
   end, {})
 
-  vim.api.nvim_create_user_command("NotifyHistoryClear", function(args)
+  api.nvim_create_user_command("NotifyHistoryClear", function(args)
     history.history_clear()
   end, {})
 end

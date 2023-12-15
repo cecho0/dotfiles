@@ -1,3 +1,4 @@
+local api = vim.api
 local opt = {
   noremap = true,
   silent = true,
@@ -7,12 +8,12 @@ local opt = {
 
 local function remap(mode, key, action, options)
   if type(mode) == "string" then
-    vim.api.nvim_set_keymap(mode, key, action, options)
+    api.nvim_set_keymap(mode, key, action, options)
     return
   end
 
   for _, v in pairs(mode) do
-    vim.api.nvim_set_keymap(v, key, action, options)
+    api.nvim_set_keymap(v, key, action, options)
   end
 end
 

@@ -1,4 +1,5 @@
 local cfg = require("builtin.notify.config")
+local api = vim.api
 local M = {}
 local local_M = {}
 local_M.winid = nil
@@ -30,9 +31,9 @@ end
 
 local function check_ui_valid()
   if local_M.winid
-      and vim.api.nvim_win_is_valid(local_M.winid)
+      and api.nvim_win_is_valid(local_M.winid)
       and local_M.bufnr
-      and vim.api.nvim_buf_is_valid(local_M.bufnr) then
+      and api.nvim_buf_is_valid(local_M.bufnr) then
     return true
   else
     return false
@@ -45,13 +46,13 @@ local function create_win()
     return
   end
 
-  if not local_M.bufnr or not vim.api.nvim_buf_is_valid(local_M.bufnr) then
-    local_M.bufnr = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_option(local_M.bufnr, "modifiable", false)
+  if not local_M.bufnr or not api.nvim_buf_is_valid(local_M.bufnr) then
+    local_M.bufnr = api.nvim_create_buf(false, true)
+    api.nvim_buf_set_option(local_M.bufnr, "modifiable", false)
     local_M.buf_is_null = true
   end
 
-  local success, winid = pcall(vim.api.nvim_open_win, local_M.bufnr, true, {
+  local success, winid = pcall(api.nvim_open_win, local_M.bufnr, true, {
     focusable = true,
     title = "Notify History",
     title_pos = "center",
@@ -69,14 +70,14 @@ local function create_win()
 
   if success then
     local_M.winid = winid
-    vim.api.nvim_win_set_option(local_M.winid, "winblend", 0)
+    api.nvim_win_set_option(local_M.winid, "winblend", 0)
   end
 end
 
 function M.history_add(line, level)
-  if not local_M.bufnr or not vim.api.nvim_buf_is_valid(local_M.bufnr) then
-    local_M.bufnr = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_option(local_M.bufnr, "modifiable", false)
+  if not local_M.bufnr or not api.nvim_buf_is_valid(local_M.bufnr) then
+    local_M.bufnr = api.nvim_create_buf(false, true)
+    api.nvim_buf_set_option(local_M.bufnr, "modifiable", false)
     local_M.buf_is_null = true
   end
 
@@ -90,28 +91,28 @@ function M.history_add(line, level)
     local_M.buf_is_null = false
   end
 
-  vim.api.nvim_buf_set_option(local_M.bufnr, "modifiable", true)
-  vim.api.nvim_buf_set_lines(local_M.bufnr, -1, -1, false, { format_line })
-  vim.api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyContent", 1 + #local_M.history, 0, #date)
-  vim.api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyLevel", 1 + #local_M.history, #date + 2, #level_str)
-  vim.api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyMsg", 1 + #local_M.history, #date + 2 + #level_str + 3, -1)
-  vim.api.nvim_buf_set_option(local_M.bufnr, "modifiable", false)
+  api.nvim_buf_set_option(local_M.bufnr, "modifiable", true)
+  api.nvim_buf_set_lines(local_M.bufnr, -1, -1, false, { format_line })
+  api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyContent", 1 + #local_M.history, 0, #date)
+  api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyLevel", 1 + #local_M.history, #date + 2, #level_str)
+  api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyMsg", 1 + #local_M.history, #date + 2 + #level_str + 3, -1)
+  api.nvim_buf_set_option(local_M.bufnr, "modifiable", false)
   local_M.history[#local_M.history] = format_line
 end
 
 function M.history_clear()
-  if not local_M.bufnr or not vim.api.nvim_buf_is_valid(local_M.bufnr) or local_M.buf_is_null then
+  if not local_M.bufnr or not api.nvim_buf_is_valid(local_M.bufnr) or local_M.buf_is_null then
     return
   end
 
-  vim.api.nvim_buf_set_lines(local_M.bufnr, 0, -1, false, { "" })
+  api.nvim_buf_set_lines(local_M.bufnr, 0, -1, false, { "" })
   local_M.history = {}
   local_M.buf_is_null = true
 end
 
 function M.history_toggle()
   if check_ui_valid() then
-    vim.api.nvim_win_hide(local_M.winid)
+    api.nvim_win_hide(local_M.winid)
     local_M.winid = nil
   else
     create_win()

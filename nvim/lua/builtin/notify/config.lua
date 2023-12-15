@@ -1,3 +1,4 @@
+local api = vim.api
 local M = {
   hl_grp = {},
   base = {
@@ -16,15 +17,15 @@ local M = {
 }
 
 M.hl_grp.ns_name = "Notify"
-M.hl_grp.ns_id = vim.api.nvim_create_namespace(M.hl_grp.ns_name)
+M.hl_grp.ns_id = api.nvim_create_namespace(M.hl_grp.ns_name)
 
-if vim.api.nvim_win_set_hl_ns then
-  vim.api.nvim_set_hl(M.hl_grp.ns_id, "NormalFloat", { bg = "NONE" })
-  vim.api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Content", { fg = "#737aa2" })
+if api.nvim_win_set_hl_ns then
+  api.nvim_set_hl(M.hl_grp.ns_id, "NormalFloat", { bg = "NONE" })
+  api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Content", { fg = "#737aa2" })
 
-  vim.api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Date", { fg = "#ffffff" })
-  vim.api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Level", { fg = "#939124" })
-  vim.api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Msg", { fg = "#838383" })
+  api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Date", { fg = "#ffffff" })
+  api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Level", { fg = "#939124" })
+  api.nvim_set_hl(M.hl_grp.ns_id, M.hl_grp.ns_name .. "Msg", { fg = "#838383" })
 end
 
 return M

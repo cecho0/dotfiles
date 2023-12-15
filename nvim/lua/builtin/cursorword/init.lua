@@ -1,4 +1,5 @@
 local M = {}
+local api = vim.api
 local word_def_cfg = {
   max = 100,
   min = 3,
@@ -28,7 +29,7 @@ end
 
 local function enable_cursorword()
   if M.config.only_nor_mode then
-    if vim.api.nvim_get_mode().mode ~= 'n' then
+    if api.nvim_get_mode().mode ~= 'n' then
       return
     end
   end
@@ -40,13 +41,13 @@ local function enable_cursorword()
     return
   end
 
-  local bufname = vim.api.nvim_buf_get_name(0)
+  local bufname = api.nvim_buf_get_name(0)
   if vim.bo.buftype == "prompt" or #bufname == 0 then
     return
   end
 
-  local column = vim.api.nvim_win_get_cursor(0)[2]
-  local line = vim.api.nvim_get_current_line()
+  local column = api.nvim_win_get_cursor(0)[2]
+  local line = api.nvim_get_current_line()
   local cursorword_str = vim.fn.matchstr(line:sub(1, column + 1), [[\k*$]])
     .. vim.fn.matchstr(line:sub(column + 1), [[^\k*]]):sub(2)
 
@@ -88,13 +89,13 @@ function M.setup(opts)
   end
 
   check_param(M)
-  vim.api.nvim_set_hl(0, "CursorWord", M.config.style)
+  api.nvim_set_hl(0, "CursorWord", M.config.style)
 
-  vim.api.nvim_create_autocmd("CursorMoved", {
+  api.nvim_create_autocmd("CursorMoved", {
     pattern = "*",
     callback = enable_cursorword,
   })
-  vim.api.nvim_create_autocmd({ "InsertEnter", "BufWinEnter" }, {
+  api.nvim_create_autocmd({ "InsertEnter", "BufWinEnter" }, {
     pattern = "*",
     callback = disable_cursorword,
   })

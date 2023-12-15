@@ -1,4 +1,5 @@
 local env = require("core.env")
+local api = vim.api
 
 local function debug_info()
   print("config: " .. env.config_home)
@@ -7,19 +8,19 @@ local function debug_info()
   print("home: " .. env.home)
   print("os: " .. env.os)
   print("modules: " .. env.modules_home)
-  print("runtime:" .. vim.inspect(vim.api.nvim_list_runtime_paths()))
+  print("runtime:" .. vim.inspect(api.nvim_list_runtime_paths()))
 end
 
 local function debug_runtime()
-  print("runtime:" .. vim.inspect(vim.api.nvim_list_runtime_paths()))
+  print("runtime:" .. vim.inspect(api.nvim_list_runtime_paths()))
 end
 
-vim.api.nvim_create_user_command("DebugInfo", function(args)
+api.nvim_create_user_command("DebugInfo", function(args)
   debug_info()
 end, {})
 
-local mygrp = vim.api.nvim_create_augroup("MYGRP", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
+local mygrp = api.nvim_create_augroup("MYGRP", { clear = true })
+api.nvim_create_autocmd("BufWritePost", {
   group = mygrp,
   pattern = "*.lua",
   callback = function(_)
@@ -31,7 +32,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   end
 })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
+api.nvim_create_autocmd("TextYankPost", {
   group = mygrp,
   pattern = "*",
   callback = function()

@@ -1,4 +1,5 @@
 local env = require("core.env")
+local api = vim.api
 local buffer = {}
 
 local special_type_list = {
@@ -68,12 +69,12 @@ function buffer:get_short_file(filename)
 end
 
 function buffer:get_props(obj)
-  local filepath = vim.api.nvim_buf_get_name(self.bufnr)
+  local filepath = api.nvim_buf_get_name(self.bufnr)
 
   self.file = self:get_short_file(filepath)
-  self.buftype = vim.api.nvim_buf_get_option(self.bufnr, "buftype")
-  self.filetype = vim.api.nvim_buf_get_option(self.bufnr, "filetype")
-  self.modified = vim.api.nvim_buf_get_option(self.bufnr, "modified")
+  self.buftype = api.nvim_buf_get_option(self.bufnr, "buftype")
+  self.filetype = api.nvim_buf_get_option(self.bufnr, "filetype")
+  self.modified = api.nvim_buf_get_option(self.bufnr, "modified")
   self.name = format_name(self:get_name(), obj.config.tab_context_max_len)
 
   self.add = false
@@ -114,7 +115,7 @@ function buffer:len(obj)
 end
 
 function buffer:check_is_valid()
-  return vim.api.nvim_buf_is_valid(self.bufnr) and vim.bo[self.bufnr].buflisted
+  return api.nvim_buf_is_valid(self.bufnr) and vim.bo[self.bufnr].buflisted
 end
 
 function buffer:check_is_special_type()
@@ -152,7 +153,7 @@ function buffer:render(obj)
 end
 
 function gen_buffers(obj)
-  local buf_list = vim.api.nvim_list_bufs()
+  local buf_list = api.nvim_list_bufs()
   local buffers = {}
   for i = 1, #buf_list do
     local buf = buffer:new(obj, buf_list[i])

@@ -1,3 +1,4 @@
+local api = vim.api
 local opt = {
   noremap = true,
   silent = true,
@@ -7,12 +8,12 @@ local opt = {
 
 local function map(mode, key, action, options)
   if type(mode) == "string" then
-    vim.api.nvim_set_keymap(mode, key, action, options)
+    api.nvim_set_keymap(mode, key, action, options)
     return
   end
 
   for _, v in pairs(mode) do
-    vim.api.nvim_set_keymap(v, key, action, options)
+    api.nvim_set_keymap(v, key, action, options)
   end
 end
 
@@ -31,7 +32,7 @@ map({"n", "i", "v"}, "<F2>", "<CMD>Lspsaga outline<CR>", opt)
 map({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", opt)
 
 -- codewindow
-map("n", "<F3>", '<CMD>lua require("codewindow").toggle_minimap()', opt )
+map("n", "<F3>", '<CMD>lua require("codewindow").toggle_minimap()<CR>', opt )
 
 -- telescope
 map("n", "<leader>fd", "<CMD>Telescope live_grep<CR>", opt)

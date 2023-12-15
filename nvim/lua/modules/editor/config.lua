@@ -114,17 +114,7 @@ function config.nvim_treesitter()
 end
 
 function config.nvim_ts_rainbow()
-  require("nvim-treesitter.configs").setup {
-    highlight = {
-      enable = true,
-    },
-    rainbow = {
-      enable = true,
-      extended_mode = true,
-     --   --colors = {}, -- table of hex strings
-     --   --termcolors = {} -- table of colour name strings
-    },
-  }
+  require("rainbow-delimiters")
 end
 
 function config.comment()

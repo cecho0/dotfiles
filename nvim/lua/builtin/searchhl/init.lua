@@ -1,3 +1,4 @@
+local api = vim.api
 local M = {}
 
 M.config = {
@@ -9,8 +10,8 @@ local function disable_hl()
     return
   end
 
-  local keycode = vim.api.nvim_replace_termcodes("<Cmd>nohlsearch<CR>", true, false, true)
-  vim.api.nvim_feedkeys(keycode, 'n', false)
+  local keycode = api.nvim_replace_termcodes("<Cmd>nohlsearch<CR>", true, false, true)
+  api.nvim_feedkeys(keycode, 'n', false)
 end
 
 local function enable_hl()
@@ -21,7 +22,7 @@ local function enable_hl()
 end
 
 local function enable_auto_hl(hlgroup, bufnr)
-  local enable_hl_cmd = vim.api.nvim_create_autocmd("CursorMoved", {
+  local enable_hl_cmd = api.nvim_create_autocmd("CursorMoved", {
     buffer = bufnr,
     group = hlgroup,
     callback = function()
@@ -29,7 +30,7 @@ local function enable_auto_hl(hlgroup, bufnr)
     end,
   })
 
-  local disable_hl_cmd = vim.api.nvim_create_autocmd("InsertEnter", {
+  local disable_hl_cmd = api.nvim_create_autocmd("InsertEnter", {
     buffer = bufnr,
     group = hlgroup,
     callback = function()
@@ -37,13 +38,13 @@ local function enable_auto_hl(hlgroup, bufnr)
     end,
   })
 
-  vim.api.nvim_create_autocmd("BufWinLeave", {
+  api.nvim_create_autocmd("BufWinLeave", {
     buffer = bufnr,
     group = hlgroup,
     callback = function(opt)
-      pcall(vim.api.nvim_del_autocmd, enable_hl_cmd)
-      pcall(vim.api.nvim_del_autocmd, disable_hl_cmd)
-      pcall(vim.api.nvim_del_autocmd, opt.id)
+      pcall(api.nvim_del_autocmd, enable_hl_cmd)
+      pcall(api.nvim_del_autocmd, disable_hl_cmd)
+      pcall(api.nvim_del_autocmd, opt.id)
     end
   })
 end
@@ -54,8 +55,8 @@ function M.setup(opts)
     return
   end
 
-  local search_hl_grp = vim.api.nvim_create_augroup("search_hl_grp", { clear = true })
-  vim.api.nvim_create_autocmd("BufWinEnter", {
+  local search_hl_grp = api.nvim_create_augroup("search_hl_grp", { clear = true })
+  api.nvim_create_autocmd("BufWinEnter", {
     group = search_hl_grp,
     callback = function(opt)
       enable_auto_hl(search_hl_grp, opt.buf)

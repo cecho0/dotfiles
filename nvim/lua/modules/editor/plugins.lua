@@ -30,7 +30,7 @@ package({
 })
 
 package({
-  "p00f/nvim-ts-rainbow",
+  "HiPhish/rainbow-delimiters.nvim",
   event = "BufEnter",
   config = conf.nvim_ts_rainbow,
   enabled = env.enable_plugin,

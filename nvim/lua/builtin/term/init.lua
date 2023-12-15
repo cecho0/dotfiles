@@ -1,4 +1,5 @@
 local M = {}
+local api = vim.api
 local local_M = {}
 local_M.winid = nil
 local_M.bufnr = nil
@@ -25,9 +26,9 @@ end
 
 local function check_ui_valid()
   if local_M.winid
-      and vim.api.nvim_win_is_valid(local_M.winid)
+      and api.nvim_win_is_valid(local_M.winid)
       and local_M.bufnr
-      and vim.api.nvim_buf_is_valid(local_M.bufnr) then
+      and api.nvim_buf_is_valid(local_M.bufnr) then
     return true
   else
     return false
@@ -35,12 +36,12 @@ local function check_ui_valid()
 end
 
 local function delete_win()
-  if local_M.winid and vim.api.nvim_win_is_valid(local_M.winid) then
-    vim.api.nvim_win_close(local_M.winid, { force = true })
+  if local_M.winid and api.nvim_win_is_valid(local_M.winid) then
+    api.nvim_win_close(local_M.winid, { force = true })
   end
 
-  if local_M.bufnr and vim.api.nvim_buf_is_valid(local_M.bufnr) then
-    vim.api.nvim_buf_delete(local_M.bufnr, { force = true })
+  if local_M.bufnr and api.nvim_buf_is_valid(local_M.bufnr) then
+    api.nvim_buf_delete(local_M.bufnr, { force = true })
   end
 
   local_M.winid = nil
@@ -53,11 +54,11 @@ local function create_win()
     return
   end
 
-  if not local_M.bufnr or not vim.api.nvim_buf_is_valid(local_M.bufnr) then
-    local_M.bufnr = vim.api.nvim_create_buf(false, true)
+  if not local_M.bufnr or not api.nvim_buf_is_valid(local_M.bufnr) then
+    local_M.bufnr = api.nvim_create_buf(false, true)
   end
 
-  local success, winid = pcall(vim.api.nvim_open_win, local_M.bufnr, true, {
+  local success, winid = pcall(api.nvim_open_win, local_M.bufnr, true, {
     focusable = false,
     style = "minimal",
     border = "single",
@@ -76,9 +77,9 @@ local function create_win()
   end
 
   local_M.winid = winid
-  vim.api.nvim_win_set_option(local_M.winid, "winblend", 0)
-  -- if vim.api.nvim_win_set_hl_ns then
-  --   vim.api.nvim_win_set_hl_ns(local_M.winid, cfg.hl_grp.ns_id)
+  api.nvim_win_set_option(local_M.winid, "winblend", 0)
+  -- if api.nvim_win_set_hl_ns then
+  --   api.nvim_win_set_hl_ns(local_M.winid, cfg.hl_grp.ns_id)
   -- end
 
   if not local_M.jobid then
@@ -89,20 +90,20 @@ local function create_win()
     vim.cmd("startinsert!")
   end
 
-  local CloseTerm = vim.api.nvim_create_augroup("CloseTerm", { clear = true })
-  local ResizeTerm = vim.api.nvim_create_augroup("ResizeTerm", { clear = true })
-  local resize_cmd =  vim.api.nvim_create_autocmd({"VimResized"}, {
+  local CloseTerm = api.nvim_create_augroup("CloseTerm", { clear = true })
+  local ResizeTerm = api.nvim_create_augroup("ResizeTerm", { clear = true })
+  local resize_cmd =  api.nvim_create_autocmd({"VimResized"}, {
     group = ResizeTerm,
     buffer = local_M.bufnr,
     nested = true,
     callback = function(opts)
-      vim.api.nvim_win_hide(local_M.winid)
+      api.nvim_win_hide(local_M.winid)
       local_M.winid = nil
       create_win()
     end
   })
 
-  vim.api.nvim_create_autocmd({"QuitPre"}, {
+  api.nvim_create_autocmd({"QuitPre"}, {
     group = CloseTerm,
     buffer = local_M.bufnr,
     nested = true,
@@ -111,17 +112,17 @@ local function create_win()
       local_M.jobid = nil
       delete_win()
 
-      vim.api.nvim_del_augroup_by_id(ResizeTerm)
-      vim.api.nvim_del_augroup_by_id(CloseTerm)
-      vim.api.nvim_del_autocmd(opts.id)
-      vim.api.nvim_del_autocmd(resize_cmd)
+      api.nvim_del_augroup_by_id(ResizeTerm)
+      api.nvim_del_augroup_by_id(CloseTerm)
+      api.nvim_del_autocmd(opts.id)
+      api.nvim_del_autocmd(resize_cmd)
     end
   })
 end
 
 local function toggle_term()
   if check_ui_valid() then
-    vim.api.nvim_win_hide(local_M.winid)
+    api.nvim_win_hide(local_M.winid)
     local_M.winid = nil
   else
     create_win()
@@ -129,18 +130,18 @@ local function toggle_term()
 end
 
 local function load_command(keymap)
-  vim.api.nvim_create_user_command("TermToggle", function()
+  api.nvim_create_user_command("TermToggle", function()
       toggle_term()
   end, {})
 
-  vim.api.nvim_set_keymap("n", keymap, "<CMD>TermToggle<CR>", {
+  api.nvim_set_keymap("n", keymap, "<CMD>TermToggle<CR>", {
     noremap = true,
     silent = true,
     expr = false,
     nowait = false,
   })
 
-  vim.api.nvim_set_keymap("t", keymap, "<CMD>TermToggle<CR>", {
+  api.nvim_set_keymap("t", keymap, "<CMD>TermToggle<CR>", {
     noremap = true,
     silent = true,
     expr = false,

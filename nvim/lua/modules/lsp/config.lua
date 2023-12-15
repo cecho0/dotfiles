@@ -1,4 +1,5 @@
 local config = {}
+local api = vim.api
 
 function config.nvim_lspconfig()
   local lspconfig = require("lspconfig")
@@ -43,7 +44,7 @@ function config.nvim_lspconfig()
       vim.notify("lsp err: " .. err)
     end
 
-    vim.api.nvim_create_autocmd("CursorHold", {
+    api.nvim_create_autocmd("CursorHold", {
       buffer = bufnr,
       callback = function()
         local opts = {
@@ -77,7 +78,7 @@ function config.nvim_lspconfig()
 
   vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
     local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
-    local bufnr = vim.api.nvim_get_current_buf()
+    local bufnr = api.nvim_get_current_buf()
     vim.diagnostic.reset(ns, bufnr)
     return true
   end
@@ -155,8 +156,8 @@ function config.nvim_cmp()
 
   local has_words_before = function()
     unpack = unpack or table.unpack
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+    local line, col = unpack(api.nvim_win_get_cursor(0))
+    return col ~= 0 and api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
 
   local kind_icons = {

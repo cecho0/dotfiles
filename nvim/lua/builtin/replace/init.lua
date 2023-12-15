@@ -1,17 +1,18 @@
 local ui = require("builtin.replace.ui")
 local cfg = require("builtin.replace.config")
+local api = vim.api
 local M = {}
 
 function MyMouseClick()
-  local cursor_row, cursor_col = unpack(vim.api.nvim_win_get_cursor(0))
+  local cursor_row, cursor_col = unpack(api.nvim_win_get_cursor(0))
   local clicked_row, clicked_col = unpack(vim.fn.getpos("."))
 
   local res = vim.fn.getmousepos()
   local mouse_x = vim.fn.getmousepos()["screencol"]
   local mouse_y = vim.fn.getmousepos()["screenrow"]
 
-  local bufnr = vim.api.nvim_create_buf(false, true)
-  local success, winid = pcall(vim.api.nvim_open_win, bufnr, false, {
+  local bufnr = api.nvim_create_buf(false, true)
+  local success, winid = pcall(api.nvim_open_win, bufnr, false, {
     focusable = false,
     style = "minimal",
     border = "rounded",
@@ -35,7 +36,7 @@ function MyMouseClick()
     -- print(cursor_col)
     -- 在特定位置触发点击事件
     -- if cursor_row == clicked_row and cursor_col == clicked_col then
-    --     vim.api.nvim_out_write("Mouse clicked at specific position!\n")
+    --     api.nvim_out_write("Mouse clicked at specific position!\n")
     -- end
 end
 
@@ -49,8 +50,8 @@ function M.setup(opts)
     return
   end
 
-  -- vim.api.nvim_set_keymap('n', '<LeftMouse>', ':lua MyMouseClick()<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', "<F9>", ":lua toggle_search_ui()<CR>", { noremap = true, silent = true })
+  -- api.nvim_set_keymap('n', '<LeftMouse>', ':lua MyMouseClick()<CR>', { noremap = true, silent = true })
+  api.nvim_set_keymap('n', "<F9>", ":lua toggle_search_ui()<CR>", { noremap = true, silent = true })
 end
 
 return M
