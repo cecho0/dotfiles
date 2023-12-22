@@ -12,30 +12,63 @@ package({
 })
 
 package({
-  "nvimdev/indentmini.nvim",
-  event = "BufEnter",
-  config = conf.indentmini,
-  enabled = env.enable_plugin,
-})
-
-package({
   "Bekaboo/deadcolumn.nvim",
   event = "BufEnter",
-  config = conf.deadcolumn,
+  config = function()
+    require("deadcolumn").setup()
+  end,
   enabled = env.enable_plugin,
 })
 
 package({
   "gorbit99/codewindow.nvim",
   event = "BufEnter",
-  config = conf.codewindow,
+  config = function()
+    require("codewindow").setup()
+  end,
   enabled = env.enable_plugin,
 })
 
 package({
   "folke/which-key.nvim",
   event = "VeryLazy",
-  config = conf.which_key,
+  config = function()
+    require("which-key").setup({
+      window = {
+        border = "single",
+        position = "bottom",
+      },
+    })
+  end,
   enabled = env.enable_plugin,
+})
+
+package({
+  "echasnovski/mini.animate",
+  event = "BufEnter",
+  config = function()
+    require("mini.animate").setup()
+  end,
+  enable = env.enable_plugin,
+})
+
+package({
+  "catppuccin/nvim",
+  config = conf.catppuccin_nvim,
+  event = "BufEnter",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter"
+  },
+  enable = env.enable_plugin,
+})
+
+package({
+  "folke/tokyonight.nvim",
+  config = conf.tokyonight_nvim,
+  event = "BufEnter",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter"
+  },
+  enable = env.enable_plugin,
 })
 

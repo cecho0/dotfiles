@@ -28,31 +28,18 @@ function config.dashboard()
   })
 end
 
-function config.indentmini()
-  require("indentmini").setup({
-    char = "│",
-  })
-
-  vim.api.nvim_set_hl(0, "IndentMini_Line_Grp", { ctermfg = 14, fg = 7109270 })
-  vim.cmd.highlight("default link IndentLine IndentMini_Line_Grp")
+function config.catppuccin_nvim()
+  -- latte, frappe, macchiato, mocha
+  --[[ vim.g.catppuccin_flavour = "macchiato"
+  require("catppuccin").setup()
+  vim.cmd [[colorscheme catppuccin]]
+  --]]
 end
 
-function config.deadcolumn()
-  require("deadcolumn").setup()
-end
-
-function config.codewindow()
-  local codewindow = require("codewindow")
-  codewindow.setup()
-end
-
-function config.which_key()
-  require("which-key").setup({
-    window = {
-      border = "single",
-      position = "bottom",
-    },
-  })
+function config.tokyonight_nvim()
+  --night storm day
+  require("tokyonight").setup()
+  vim.cmd[[colorscheme tokyonight-storm]]
 end
 
 return config

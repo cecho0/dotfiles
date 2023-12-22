@@ -57,18 +57,6 @@ function config.gitsigns()
   })
 end
 
-function config.nvim_colorizer()
-  require("colorizer").setup()
-end
-
-function config.sentiment()
-  require("sentiment").setup()
-end
-
-function config.autopairs()
-  require("ultimate-autopair").setup()
-end
-
 function config.nvim_treesitter()
   local env = require "core.env"
 
@@ -113,39 +101,67 @@ function config.nvim_treesitter()
   vim.opt.runtimepath:append(env.data_home)
 end
 
-function config.nvim_ts_rainbow()
-  require("rainbow-delimiters")
+function config.mini_indentscope()
+  require("mini.indentscope").setup({
+    symbol = "│",
+    options = {
+      try_as_border = true,
+    },
+  })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+      "help",
+      "alpha",
+      "dashboard",
+      "neo-tree",
+      "Trouble",
+      "trouble",
+      "lazy",
+      "mason",
+      "notify",
+      "toggleterm",
+      "lazyterm",
+    },
+    callback = function()
+      vim.b.miniindentscope_disable = true
+    end,})
 end
 
-function config.comment()
-  require("Comment").setup({
-    padding = true,
-    sticky = true,
-    ignore = nil,
-    toggler = {
-        line = "gc",
-        block = "gb",
+function config.indent_blankline()
+  require("ibl").setup({
+    indent = {
+      char = "│",
+      tab_char = "│",
     },
-    ---LHS of operator-pending mappings in NORMAL and VISUAL mode
-    opleader = {
-        line = "gc",
-        block = "gb",
+    scope = {
+      enabled = false,
     },
-    extra = {
-        above = "gcO",
-        below = "gco",
-        eol = "gcA",
+    exclude = {
+      filetypes = {
+        "help",
+        "alpha",
+        "dashboard",
+        "neo-tree",
+        "Trouble",
+        "trouble",
+        "lazy",
+        "mason",
+        "notify",
+        "toggleterm",
+        "lazyterm",
+      },
     },
-    ---Enable keybindings
-    mappings = {
-        ---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`
-        basic = true,
-        ---Extra mapping; `gco`, `gcO`, `gcA`
-        extra = false,
-    },
-    pre_hook = nil,
-    post_hook = nil,
   })
+end
+
+function config.indentmini()
+  require("indentmini").setup({
+    char = "│",
+  })
+
+  vim.api.nvim_set_hl(0, "IndentMini_Line_Grp", { ctermfg = 14, fg = 7109270 })
+  vim.cmd.highlight("default link IndentLine IndentMini_Line_Grp")
 end
 
 return config

@@ -32,39 +32,86 @@ package({
 package({
   "HiPhish/rainbow-delimiters.nvim",
   event = "BufEnter",
-  config = conf.nvim_ts_rainbow,
+  config = function()
+    require("rainbow-delimiters")
+  end,
   enabled = env.enable_plugin,
 })
 
 package({
   "utilyre/sentiment.nvim",
   event = "BufEnter",
-  config = conf.sentiment,
+  config = function()
+    require("sentiment").setup()
+  end,
   enabled = env.enable_plugin,
-})
-
-package({
-  "altermo/ultimate-autopair.nvim",
-  event = {
-    "InsertEnter",
-    "CmdlineEnter"
-  },
-  config = conf.autopairs,
-  enabled = env.enable_plugin and env.enable_lsp,
 })
 
 package({
   "norcalli/nvim-colorizer.lua",
   ft = { "lua", "css", "html", "sass", "less", "typescriptreact", "conf", "vim"},
-  config = conf.nvim_colorizer,
+  config = function()
+    require("colorizer").setup()
+  end,
   enabled = env.enable_plugin,
 })
 
 package({
-  "numToStr/Comment.nvim",
+  "echasnovski/mini.comment",
   event = "BufEnter",
-  config = conf.comment,
-  ft = env.ft_enable,
-  enabled = env.enable_plugin,
+  config = function()
+    require("mini.comment").setup({
+      mappings = {
+        comment = "gc",
+        comment_line = "gc",
+        comment_visual = "gb",
+        textobject = "gc",
+      },
+    })
+  end,
+  enable = env.enable_plugin,
+})
+
+package({
+  "echasnovski/mini.pairs",
+  event = "BufEnter",
+  config = function()
+    require("mini.pairs").setup()
+  end,
+  enable = env.enable_plugin,
+})
+
+package({
+  "echasnovski/mini.indentscope",
+  event = "BufEnter",
+  config = conf.mini_indentscope,
+  init = function()
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = {
+        "help",
+        "alpha",
+        "dashboard",
+        "neo-tree",
+        "Trouble",
+        "trouble",
+        "lazy",
+        "mason",
+        "notify",
+        "toggleterm",
+        "lazyterm",
+      },
+      callback = function()
+        vim.b.miniindentscope_disable = true
+      end,
+    })
+  end,
+  enable = env.enable_plugin,
+})
+
+package({
+  "lukas-reineke/indent-blankline.nvim",
+  event = "BufEnter",
+  config = conf.indent_blankline,
+  enable = env.enable_plugin,
 })
 
