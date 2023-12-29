@@ -69,7 +69,7 @@ package({
       },
     })
   end,
-  enable = env.enable_plugin,
+  enabled = env.enable_plugin,
 })
 
 package({
@@ -78,7 +78,7 @@ package({
   config = function()
     require("mini.pairs").setup()
   end,
-  enable = env.enable_plugin,
+  enabled = env.enable_plugin,
 })
 
 package({
@@ -105,13 +105,13 @@ package({
       end,
     })
   end,
-  enable = env.enable_plugin,
+  enabled = env.enable_plugin,
 })
 
 package({
   "lukas-reineke/indent-blankline.nvim",
   event = "BufEnter",
   config = conf.indent_blankline,
-  enable = env.enable_plugin,
+  enabled = env.enable_plugin,
 })
 

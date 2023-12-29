@@ -84,6 +84,12 @@ function config.nvim_treesitter()
       "yaml",
     },
     sync_install = false,
+    highlight = {
+      enable = true,
+      disable = function(_, buf)
+        return vim.api.nvim_buf_line_count(buf) > 5000
+      end,
+    },
     incremental_selection = {
       enable = true,
       keymaps = {

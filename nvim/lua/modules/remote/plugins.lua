@@ -5,6 +5,6 @@ local conf = require("modules.remote.config")
 package({
   "chipsenkbeil/distant.nvim",
   cmd = "Distant",
-  enabled = env.enable_plugin,
   config = conf.distant,
+  enabled = env.enable_plugin,
 })

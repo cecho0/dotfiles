@@ -1,4 +1,4 @@
-local package = require('core.pack').package
+local package = require("core.pack").package
 local conf = require("modules.ui.config")
 local env = require("core.env")
 
@@ -49,26 +49,73 @@ package({
   config = function()
     require("mini.animate").setup()
   end,
-  enable = env.enable_plugin,
+  enabled = not env.enable_plugin,
 })
 
 package({
   "catppuccin/nvim",
-  config = conf.catppuccin_nvim,
+  config = function()
+    -- latte, frappe, macchiato, mocha
+    --[[ vim.g.catppuccin_flavour = "macchiato"
+    require("catppuccin").setup()
+    vim.cmd [[colorscheme catppuccin]]
+    --]]
+  end,
   event = "BufEnter",
   dependencies = {
     "nvim-treesitter/nvim-treesitter"
   },
-  enable = env.enable_plugin,
+  enabled = env.enable_plugin,
 })
 
 package({
   "folke/tokyonight.nvim",
-  config = conf.tokyonight_nvim,
+  config = function()
+    --night storm day
+    -- require("tokyonight").setup()
+    -- vim.cmd[[colorscheme tokyonight-storm]]
+  end,
   event = "BufEnter",
   dependencies = {
     "nvim-treesitter/nvim-treesitter"
   },
-  enable = env.enable_plugin,
+  enabled = env.enable_plugin,
+})
+
+package({
+  "rebelot/kanagawa.nvim",
+  config = function()
+    require("kanagawa").setup({
+        compile = true,
+        undercurl = true,
+        commentStyle = { italic = true },
+        functionStyle = {},
+        keywordStyle = { italic = true},
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = false,
+        dimInactive = false,
+        terminalColors = true,
+        colors = {
+            palette = {},
+            theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+        },
+        overrides = function(colors)
+            return {}
+        end,
+        theme = "dragon",
+        background = {
+            dark = "wave",
+            light = "lotus"
+        },
+    })
+
+    vim.cmd("colorscheme kanagawa")
+  end,
+  event = "BufEnter",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter"
+  },
+  enabled = env.enable_plugin,
 })
 
