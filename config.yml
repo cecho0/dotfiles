@@ -1,5 +1,7 @@
 github_token: "your_github_token"
-proxy: "your_proxy_address"
+proxy:
+  enable: true
+  url: "your_proxy"
 try_times: 3
 install_type: "soft"
 bin_path:
@@ -15,6 +17,7 @@ software:
   eza:
     username: "eza-community"
     repo: "eza"
+    single: true
     link_format:
       win: "eza.exe_x86_64-pc-windows-gnu.tar.gz"
       mac:
@@ -22,6 +25,8 @@ software:
   bat:
     username: "sharkdp"
     repo: "bat"
+    single: true
+    bin_name: "bat"
     link_format:
       win: "bat-{version}-x86_64-pc-windows-gnu.zip"
       mac: "bat-{version}-x86_64-apple-darwin.tar.gz"
@@ -29,6 +34,7 @@ software:
   fd:
     username: "sharkdp"
     repo: "fd"
+    single: true
     link_format:
       win: "fd-{version}-x86_64-pc-windows-gnu.zip"
       mac: "fd-{version}-x86_64-apple-darwin.tar.gz"
@@ -36,6 +42,7 @@ software:
   rg:
     username: "BurntSushi"
     repo: "ripgrep"
+    single: true
     link_format:
       win: "ripgrep-{version}-x86_64-pc-windows-gnu.zip"
       mac: "ripgrep-{version}-x86_64-apple-darwin.tar.gz"
@@ -43,6 +50,7 @@ software:
   btm:
     username: "ClementTsang"
     repo: "bottom"
+    single: true
     link_format:
       win: "bottom_x86_64-pc_windows-gnu.zip"
       mac: "bottom_x86_64-apple-darwin.tar.gz"
@@ -50,6 +58,7 @@ software:
   mdbook:
     username: "rust-lang"
     repo: "mdbook"
+    single: true
     link_format:
       win: "mdbook-{version}-x86_64-pc-windows-msvc.zip"
       mac: "mdbook-{version}-x86_64-apple-darwin.tar.gz"
@@ -57,6 +66,7 @@ software:
   tokei:
     username: "XAMPPRocky"
     repo: "tokei"
+    single: true
     link_format:
       win: "tokei-x86_64-pc-windows-msvc.exe"
       mac: "tokei-x86_64-apple-darwin.tar.gz"
@@ -64,6 +74,7 @@ software:
   fzf:
     username: "junegunn"
     repo: "fzf"
+    single: true
     link_format:
       win: "fzf-{version}-windows_amd64.zip"
       mac: "fzf-{version}-darwin_arm64.zip"
@@ -71,6 +82,7 @@ software:
   nvim:
     username: "neovim"
     repo: "neovim"
+    single: false
     link_format:
       win: "nvim-win64.zip"
       mac: "nvim-macos.tar.gz"
@@ -113,3 +125,4 @@ config:
     enable: true
     config_path: "{home_path}/.zshrc"
     root_path: "{root_path}/zsh/.zshrc"
+
