@@ -1,0 +1,541 @@
+//Some options have suffix for OS:
+//  Windows: empty
+//  Linux: "__linux"
+//  macOS: "__mac"
+//  FreeBSD: "__freebsd"
+//  OpenBSD: "__openbsd"
+//  NetBSD: "__netbsd"
+//  DragonFlyBSD: "__dragonfly"
+//  Solaris: "__solaris"
+//  Haiku: "__haiku"
+{
+    // ===== Font=====
+    // windows
+    "font_name" : "OperatorMono Nerd Font",
+    "font_name_i" : "",
+    "font_name_b" : "",
+    "font_name_bi" : "",
+    "font_size" : 10,
+    "font_size_i" : 10,
+    "font_size_b" : 10,
+    "font_size_bi" : 10,
+    "font_quality" : 0,
+
+    // linux
+    "font_name__linux" : "OperatorMono Nerd Font",
+    "font_name_i__linux" : "",
+    "font_name_b__linux" : "",
+    "font_name_bi__linux" : "",
+    "font_size__linux" : 10,
+    "font_size_i__linux" : 10,
+    "font_size_b__linux" : 10,
+    "font_size_bi__linux" : 10,
+    "font_quality__linux" : 0,
+
+    // mac
+    "font_name__mac" : "OperatorMono Nerd Font",
+    "font_name_i__mac" : "",
+    "font_name_b__mac" : "",
+    "font_name_bi__mac" : "",
+    "font_size__mac" : 10,
+    "font_size_i__mac" : 10,
+    "font_size_b__mac" : 10,
+    "font_size_bi__mac" : 10,
+    "font_quality__mac" : 0,
+    "font_ligatures" : true,
+
+    // ===== UI =====
+    // common
+    "ui_one_instance": true,
+    "ui_links_confirm": true,
+    "ui_button_hover": false,
+    "ui_notif": true,
+    "ui_notif_time": 2,
+    "ui_notif_confirm": 1,
+    "ui_non_text": 0,
+    "ui_non_text_buffer": 64,
+    "ui_reload_tail": true,
+    "ui_reload_unsaved_confirm": true,
+    "ui_save_always": true,
+    "ui_esc_close": false,
+    "ui_esc_close_console": true,
+    "ui_esc_close_finder": true,
+    "ui_initial_dir": "{AppDir}",
+    "ui_open_dir": "pflih",
+    "ui_title_path": false,
+    "ui_alt_hint_time": 9,
+    "ui_fullscreen": "tig",
+    "ui_active_border": 1,
+    "ui_console_wrap": true,
+
+    // windows
+    "ui_buffered": true,
+    "ui_taskbar_mode": true,
+    "ui_dialogs_in_taskbar": false,
+    "ui_scale": 0,
+    "ui_scale_font": 100,
+
+    // linux
+    "ui_buffered__linux": true,
+    "ui_taskbar_mode__linux": true,
+    "ui_dialogs_in_taskbar__linux": true,
+    "ui_scale__linux": 0,
+    "ui_scale_font__linux": 100,
+
+    // mac
+    "ui_buffered__mac": false,
+    "ui_taskbar_mode__mac": true,
+    "ui_dialogs_in_taskbar__mac": true,
+    "ui_scale__mac": 0,
+    "ui_scale_font__mac": 100,
+
+    // ===== UI/Elements =====
+    // windows
+    "ui_font_name" : "default",
+    "ui_font_size" : 9,
+    "ui_font_output_name" : "default",
+    "ui_font_output_size" : 9,
+    "ui_font_statusbar_name" : "",
+    "ui_font_statusbar_size" : 0,
+
+    // linux
+    "ui_font_name__linux" : "default",
+    "ui_font_size__linux" : 9,
+    "ui_font_output_name__linux" : "default",
+    "ui_font_output_size__linux" : 9,
+    "ui_font_statusbar_name__linux" : "",
+    "ui_font_statusbar_size__linux" : 0,
+
+    // mac
+    "ui_font_name__mac" : "default",
+    "ui_font_size__mac" : 9,
+    "ui_font_output_name__mac" : "default",
+    "ui_font_output_size__mac" : 9,
+    "ui_font_statusbar_name__mac" : "",
+    "ui_font_statusbar_size__mac" : 0,
+
+    // ===== UI/Panels =====
+    "ui_sidebar_show": true,
+    "ui_sidebar_on_right": false,
+    "ui_sidebar_theme": "octicons_20x20",
+    "ui_toolbar_show": false,
+    "ui_toolbar_theme": "default_24x24",
+    "ui_menu_show": false,
+    "ui_menu_themed": true,
+    "ui_menu_themed_font_size": 11,
+    "ui_menu_button": 2,
+    "ui_sidepanel_on_start": 0,
+    "ui_bottom_on_start": 0,
+
+    // ===== UI/Sessions =====
+    "ui_reopen_session": true,
+    "ui_reopen_session_cmdline": true,
+    "ui_session_save_interval": 30,
+    "ui_auto_save_session": true,
+    "ui_backup_sessions": 2,
+    "ui_session_max_text": 50000000,
+    "ui_session_max_undo": 1000000,
+
+    // ===== UI/Tabs =====
+    "ui_tab_show": true,
+    "ui_tab_switcher_dialog": true,
+    "ui_tab_disabled": false,
+    "ui_tab_variable_width": false,
+    "ui_tab_multiline": false,
+    "ui_tab_angled": true,
+    "ui_tab_flat": false,
+    "ui_tab_button_layout": "<>,v",
+    "ui_tab_size_x": 170,
+    "ui_tab_size_x_min": 40,
+    "ui_tab_size_x_max": 300,
+    "ui_tab_size_y": 26,
+    "ui_tab_position": 0,
+    "ui_tab_padding": 6,
+    "ui_tab_padding2": 6,
+    "ui_tab_show_x": 4,
+    "ui_tab_show_x_size": 14,
+    "ui_tab_x_rounded": true,
+    "ui_tab_show_plus": true,
+    "ui_tab_fullcolor": false,
+    "ui_tab_font_scale": 100,
+    "ui_tab_2click_closes": false,
+    "ui_tab_numbers": false,
+    "ui_tab_new_near_current": false,
+    "ui_tab_recent_on_close": false,
+    "ui_tab_preview_font_style": "iu",
+
+    // ===== UI/Statusbar =====  
+    "ui_statusbar_show": true,
+    "ui_statusbar_no_sel": "{_ln} {y}, {_col} {xx}",
+    "ui_statusbar_small_sel": "{_ln} {y}, {_col} {xx}, {_sel}",
+    "ui_statusbar_str_sel": "{_ln} {y}, {_col} {xx}, {sel} {_linesel}",
+    "ui_statusbar_col_sel": "{sel}x{cols} {_sel}",
+    "ui_statusbar_carets": "{carets} {_carets}, {sel} {_linesel}",
+    "ui_statusbar_panels": "msg,L,|ins,A,|caret,C,180|tabsize,A,|enc,C,125|ends,A,|lexer,C,140|selmode,A,",
+    "ui_statusbar_time": 1,
+    "ui_statusbar_hint_lines": 35,
+
+    // ===== UI/Listbox =====
+    "ui_listbox_size_x": 450,
+    "ui_listbox_size_y": 300,
+    "ui_listbox_complete_size_x": 550,
+    "ui_listbox_complete_size_items": 12,
+    "ui_listbox_fuzzy": true,
+    "ui_cmdpalette_filter_keep": false,
+
+    // ===== UI/History =====
+    "ui_max_history_edits": 20,
+    "ui_max_history_menu": 10,
+    "ui_max_history_files": 25,
+    "ui_max_history_clipboard": 15,
+    "ui_history_disabled": "",
+
+    // ===== UI/Tree =====
+    "ui_tree_font_scale": 100,
+    "ui_tree_auto_sync": true,
+    "ui_tree_time_fill": 2000,
+    "ui_tree_icons": true,
+    "ui_tree_theme": "default_16x16",
+    "ui_tree_show_tooltips": true,
+    "ui_tree_filter_layout": 1,
+    "ui_tree_sublexers": false,
+    "ui_tree_fill_max_time": 150,
+    "ui_tree_unfold": false,
+
+    // ===== Renderer =====
+    // windows
+    "renderer_anti_flicker": 0,
+    "renderer_tweaks": "wos",
+
+    // linux
+    "renderer_anti_flicker__linux": 0,
+    "renderer_tweaks__linux": "ws",
+
+    // mac
+    "renderer_anti_flicker__mac": 0,
+    "renderer_tweaks__mac": "s",
+
+    // ===== Unicode =====
+    "unicode_proportional": true,
+    "unicode_full_width": 190,
+
+    // ===== Theme =====
+    "ui_theme" : "atom one dark",
+    "ui_theme_syntax" : "atom one dark",
+
+    // ===== look =====    
+    "keep_sel_font_color": false,
+    "show_cur_line": true,
+    "show_cur_line_minimal": true,
+    "show_cur_line_only_focused": false,
+    "show_mouse_sel_frame": false,
+    "show_indent_lines": true,
+    "show_last_line_on_top": false,
+    "show_full_sel_bg": false,
+    "show_full_syntax_bg": true,
+    "centering_width": 0,
+    "centering_for_distraction_free": 0,
+    "zebra": 0,
+    "zebra_step": 2,
+    "dim_unfocused": 0,
+
+    // ===== Lexers =====
+    "ui_lexers_grouped": true,
+    "dynamic_highlight": 4000,
+    "lexer_folding_max_lines": 15000,
+    "max_line_len_parsed": 4000,
+    "ui_lexer_themes": true,
+
+    // ===== Text =====
+    "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
+    "max_line_len_for_undo": 102400,
+    "max_line_len_for_editing_keeping_lexer": 2000,
+    "max_line_len_brackets": 1000,
+    "max_lines_to_calc_offsets": 10000,
+
+    // ===== Text/NewDocument =====
+    "newdoc_lexer": "",
+    "newdoc_encoding": "utf8",
+    "newdoc_ends": 1,
+
+    // ===== Text/Indent =====
+    "indent_auto": true,
+    "indent_kind": 1,
+    "indent_size": 0,
+    "unindent_keeps_align": false,
+    "indent_makes_whole_line_sel": false,
+    "indent_auto_rule": "",
+
+    // ===== Text/Wrap =====
+    "wrap_mode": 0,
+    "wrap_indented": true,
+    "wrap_enabled_max_lines": 60000,
+
+    // ===== Text/Undo =====
+    "undo_limit": 5000,
+    "undo_max_carets": 20000,
+    "undo_grouped": true,
+    "undo_after_save": true,
+    "undo_persistent": "",
+    "undo_pause": 300,
+    "undo_mouse_clicks": false,
+
+    // ===== Text/Folding =====
+    "fold_style": 1,
+    "fold_tooltip_show": true,
+    "fold_icon_min_range": 0,
+    "fold_underline_size": 0,
+    "auto_fold_comments": 0,
+
+    // ===== Text/Commands =====
+    "copy_line_if_no_sel": true,
+    "cut_line_if_no_sel": true,
+    "copy_column_aligned_by_spaces": true,
+    "ovr_sel": true,
+    "ovr_on_paste": false,
+    "paste_multiline_at_line_start": false,
+    "auto_copy_clp": "",
+    "comment_move_down": true,
+    "comment_save_column": false,
+    "comment_equal_column": false,
+    "duplicate_full_line_if_no_sel": true,
+    "duplicate_move_down": true,
+
+    // ===== Text/Tabulations =====
+    "tab_size": 4,
+    "tab_spaces": true,
+    "tab_smart": false,
+
+    // ===== Text/Caret =====
+    "caret_after_end": false,
+    "caret_blink_time": 600,
+    "caret_blink_en": true,
+    "caret_multi": true,
+    "caret_view": "2,-100",
+    "caret_view_ovr": "-100,-100",
+    "caret_view_ro": "-100,2",
+    "caret_after_paste_column": 5,
+    "caret_keep_visible_on_scroll": true,
+    "carets_primitive_column_sel": true,
+    "caret_proximity_vert": 0,
+
+    // ===== Text/Completion =====
+    "autocomplete_acp": true,
+    "autocomplete_html": true,
+    "autocomplete_html_lexers": ".*HTML.*|\bPHP\b",
+    "autocomplete_html_autoclose": true,
+    "autocomplete_css": true,
+    "autocomplete_css_lexers": "CSS",
+    "autocomplete_file_uri": true,
+    "autocomplete_autoshow_chars": 0,
+    "autocomplete_trigger_chars": "",
+    "autocomplete_commit_chars": ",;",
+    "autocomplete_commit_on_enter": true,
+    "autocomplete_close_chars": "<>()[]{}=",
+    "autocomplete_add_opening_bracket": true,
+    "autocomplete_up_down_at_edge": 1,
+    "autocomplete_commit_single_item": false,
+    "autocomplete_closing_delay": 300,
+    "auto_close_brackets": "([{",
+
+    // ===== Text/Look =====
+    // common
+    "marker_size": 30,
+    "staples_style": 1,
+    "staples_props": "-1,40,1,1",
+
+    // windows
+    "spacing_y": 1,
+
+    // linux
+    "spacing_y__linux": 1,
+
+    // mac
+    "spacing_y__mac": 1,
+
+    // ===== View/Gutter =====
+    "gutter_show": true,
+    "gutter_fold": true,
+    "gutter_fold_always": true,
+    "gutter_fold_icons": 0,
+    "gutter_icon_size": 4,
+    "gutter_bookmarks": true,
+    "gutter_line_states": true,
+    "auto_delete_bookmarks": false,
+
+    // ===== View/Scrolling =====
+    "show_hint_on_vert_scroll": false,
+    "smooth_scroll": true,
+    "scroll_style_horz": 2,
+    "scrollbar_themed": true,
+    "scrollbar_arrows": "0,0",
+    "scrollbar_click_jump": true,
+
+    // ===== View/Ruler =====
+    "ruler_show": false,
+    "ruler_height": 100,
+    "ruler_numeration": 0,
+    "ruler_mark_caret": 1,
+
+    // ===== View/Minimap =====
+    "minimap_show": true,
+    "minimap_coloring_time": 40,
+    "minimap_sel_always": true,
+    "minimap_sel_border": true,
+    "minimap_char_width": 0,
+    "minimap_at_left": false,
+    "minimap_scale": 0,
+    "minimap_tooltip_show": true,
+    "minimap_tooltip_height": 10,
+    "minimap_tooltip_width": 60,
+    "minimap_tooltip_font_size": 0,
+    "minimap_drag_immediately": false,
+
+    // ===== View/Micromap =====
+    "micromap_show": false,
+    "micromap_on_scrollbar": false,
+    "micromap_line_states": true,
+    "micromap_bookmarks": false,
+
+    // ===== View/LineNumbers =====
+    "numbers_show": true,
+    "numbers_style": 0,
+    "numbers_for_carets": false,
+    "numbers_center": true,
+
+    // ===== Text/VerticalLines =====
+    "show_cur_column": false,
+    "margin": 2000,
+    "margin_string": "",
+
+    // ===== View/Unprinted =====
+    "unprinted_show": true,
+    "unprinted_content": "sx",
+    "unprinted_replace_spec": false,
+    "unprinted_replace_to_code": "A4",
+    "unprinted_tab_len": 1,
+    "unprinted_symbols_scale": "15,30,80,22,",
+
+    // ===== View/Web =====
+    "underline_color_files": "*",
+    "underline_color_size": 11,
+    "links_hilite": true,
+    "links_regex": "\\b(mailto:)?\\w[\\w\\-\\+\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://)\\w[\\w\\-\\.@]*(:\\d+)?(/([~\\w\\.\\-\\+\\/%@!%]|\\(.*?\\))*)?(\\?[^<>'\"\\s]+)?(\\#[\\w\\-\\./%:!]*)?",
+
+    // ===== View/Brackets =====
+    "bracket_highlight": true,
+    "bracket_symbols": "()[]{}<>",
+    "bracket_distance": 150,
+
+    // ===== Mouse =====
+    "mouse_drag_drop": false,
+    "mouse_drag_drop_focus_target": true,
+    "mouse_rt_click_moves_caret": false,
+    "mouse_2click_drag_select_words": true,
+    "mouse_middle_click": 1,
+    "mouse_column_selection": true,
+    "mouse_gutter_click_sel": true,
+    "mouse_wheel_zoom": true,
+    "mouse_wheel_speed_vert": 3,
+    "mouse_wheel_speed_horz": 10,
+    "mouse_scroll_speed_vert": 1,
+    "mouse_goto_definition": "ca",
+    "mouse_click_number_selects_eol": true,
+    "mouse_click_links": 2,
+
+    // ===== Find =====
+    "find_separate_form": false,
+    "find_suggest_sel": true,
+    "find_suggest_cur_word": true,
+    "find_suggest_in_selection": false,
+    "find_sel_case": 2,
+    "find_hidden_buttons": "",
+    "find_multiline_height": 250,
+    "find_indent_vert": -5,
+    "find_indent_horz": 10,
+    "find_hi_max_lines": 1000,
+    "find_wrapped_blinking": "",
+
+    // ===== Find/Hotkeys =====
+    "find_hotkey_find_dlg": "Ctrl+F",
+    "find_hotkey_replace_dlg": "Ctrl+R",
+    "find_hotkey_find_first": "Alt+Enter",
+    "find_hotkey_find_next": "F3",
+    "find_hotkey_find_prev": "Shift+Enter",
+    "find_hotkey_replace": "Ctrl+Alt+Z",
+    "find_hotkey_replace_no_next": "Ctrl+Alt+Shift+Z",
+    "find_hotkey_replace_all": "Ctrl+Alt+A",
+    "find_hotkey_replace_global": "",
+    "find_hotkey_count_all": "Ctrl+Alt+O",
+    "find_hotkey_extract": "Ctrl+Alt+Q",
+    "find_hotkey_select_all": "Ctrl+Alt+E",
+    "find_hotkey_mark_all": "Ctrl+Alt+K",
+    "find_hotkey_op_regex": "Ctrl+Alt+R",
+    "find_hotkey_op_case": "Ctrl+Alt+C",
+    "find_hotkey_op_words": "Ctrl+Alt+W",
+    "find_hotkey_op_wrapped": "Ctrl+Alt+N",
+    "find_hotkey_op_in_sel": "Ctrl+Alt+X",
+    "find_hotkey_op_multiline": "Ctrl+Alt+M",
+    "find_hotkey_op_confirm_rep": "Ctrl+Alt+Y",
+    "find_hotkey_op_tokens": "",
+    "find_hotkey_op_hi": "",
+    "find_hotkey_op_prescase": "",
+    "find_hotkey_more": "Ctrl+Alt+D",
+
+    // ===== Keys =====
+    "key_bksp_unindent": true,
+    "key_bksp_wrap": true,
+    "key_tab_indents_sel": true,
+    "key_home_to_nonspace": true,
+    "key_end_to_nonspace": true,
+    "key_home_end_nav_wrapped": true,
+    "key_page_keeps_rel_pos": true,
+    "key_page_size": 1,
+    "key_up_down_keeps_column": true,
+    "key_up_down_nav_wrapped": true,
+    "key_up_down_allow_edge": false,
+    "key_left_right_wrap_with_carets": true,
+    "key_left_right_swap_sel": true,
+    "key_left_right_swap_sel_and_select": false,
+
+    // ===== File =====
+    "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico,webp,psd,tga,cur",
+    "ui_max_size_open": 500,
+    "ui_max_size_lexer": 2,
+
+    // ===== File/Saving =====
+    "saving_trim_spaces": false,
+    "saving_trim_final_empty": false,
+    "saving_force_final_eol": false,
+
+    // ===== File/Export =====
+    "export_html_numbers": false,
+    "export_html_font_name": "",
+    "export_html_font_size": 12,
+
+    // ===== Python =====
+    "pylib__linux": "libpython3.so",
+    "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib",
+    "pylib__freebsd": "libpython3.6m.so",
+    "pylib__haiku": "libpython3.10.so.1.0",
+    "py_caret_slow": 600,
+    "py_change_slow": 2000,
+
+    // ===== Viewer =====
+    "viewer_binary_width": 100,
+    "viewer_unprinted": false,
+
+    // ===== Log =====
+    "py_init_log": true,
+    "log_console": false,
+    "log_sessions": true,
+    "log_timing" : false,
+
+    // ===== Emmet =====
+    "emmet_add_slash_to_empty_tags": true,
+    "emmet_indent_nested": true,
+    "emmet_comment_tags": false,
+    "emmet_single_line": false,
+    "emmet_trim_line_markers": true,
+    "emmet_word_wrap": false,
+}
