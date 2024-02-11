@@ -29,7 +29,7 @@ map("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opt)
 map("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opt)
 map("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opt)
 map({"n", "i", "v"}, "<F2>", "<CMD>Lspsaga outline<CR>", opt)
-map({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", opt)
+-- map({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", opt)
 
 -- codewindow
 map("n", "<F3>", '<CMD>lua require("codewindow").toggle_minimap()<CR>', opt )
@@ -40,3 +40,6 @@ map("n", "<leader>ff", "<CMD>Telescope find_files<CR>", opt)
 map("n", "<leader>fb", "<CMD>Telescope buffers<CR>", opt)
 map("n", "<leader>fs", "<CMD>Telescope file_browser<CR>", opt)
 map("n", "<leader>ct", "<CMD>Telescope colorscheme theme=dropdown<CR>", opt)
+
+map({"n", "c"}, "<A-x>", "<CMD>ToggleCommandMode<CR>", opt)
+

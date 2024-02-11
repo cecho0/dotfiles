@@ -2,19 +2,19 @@ local cfg = require("builtin.notify.config")
 local history = require("builtin.notify.history")
 local api = vim.api
 local M = {}
-local local_M = {}
+local local_M = {
+  winid = nil,
+  bufnr = nil,
+}
 local cache = {}
-
-local_M.winid = nil
-local_M.bufnr = nil
 
 local displaywidth = vim.fn.strdisplaywidth
 
 local function get_max_width()
-  if type(cfg.base.max_width) == "function" then
-    return cfg.base.max_width()
+  if type(cfg.max_width) == "function" then
+    return cfg.max_width()
   else
-    return cfg.base.max_width
+    return cfg.max_width
   end
 end
 
@@ -53,7 +53,9 @@ local function create_win()
   if success then
     local_M.winid = winid
     if api.nvim_win_set_hl_ns then
-      api.nvim_win_set_hl_ns(local_M.winid, cfg.hl_grp.ns_id)
+      api.nvim_win_set_hl_ns(local_M.winid, cfg.ns_id)
+      local hl_grp = "Normal:" .. cfg.ns_name .. "NormalFloat"
+      api.nvim_win_set_option(local_M.winid, "winhighlight", hl_grp)
     end
   end
 end
@@ -132,11 +134,8 @@ local function redraw()
     end
   end
   api.nvim_win_set_height(local_M.winid, line_num)
-  api.nvim_buf_clear_namespace(local_M.bufnr, cfg.hl_grp.ns_id, 0, -1)
+  api.nvim_buf_clear_namespace(local_M.bufnr, cfg.ns_id, 0, -1)
   api.nvim_buf_set_lines(local_M.bufnr, 0, -1, false, lines)
-  for i = 1, line_num, 1 do
-    api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, cfg.hl_grp.ns_name .. "Content", i - 1, 0, -1)
-  end
 end
 
 function M.push_msg(content, level)
@@ -161,7 +160,7 @@ end
 
 function M.create_autocmd()
   api.nvim_create_autocmd("VimResized", {
-    group = cfg.hl_grp.ns_id,
+    group = cfg.ns_id,
     callback = function()
       delete_win()
     end,
@@ -179,4 +178,3 @@ function M.create_usercmd()
 end
 
 return M
-

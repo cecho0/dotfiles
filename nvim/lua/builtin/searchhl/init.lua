@@ -1,10 +1,6 @@
 local api = vim.api
 local M = {}
 
-M.config = {
-  disable = false
-}
-
 local function disable_hl()
   if vim.v.hlsearch == 0 then
     return

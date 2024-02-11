@@ -1,7 +1,12 @@
 local env = require("core.env")
-local config = require("builtin.sessions.config")
 local api = vim.api
 local M = {}
+
+local config = {
+  sessions_dir = env:join_path(vim.fs.normalize(env.data_home), "sessions"),
+  dot_replacer = "__",
+  path_replacer = "_",
+}
 
 function M.check_dir_valid()
   if vim.fn.isdirectory(config.sessions_dir) ~= 1 then

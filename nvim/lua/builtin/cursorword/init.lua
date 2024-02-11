@@ -1,22 +1,15 @@
-local M = {}
 local api = vim.api
-local word_def_cfg = {
-  max = 100,
-  min = 3,
-}
-
-M.config = {
-  only_nor_mode = true,
-  word = {
-    max = word_def_cfg.max,
-    min = word_def_cfg.min,
-  },
+local M = {}
+local local_M = {
+  ns_name = "CursorWord",
+  ns_id = nil,
+  word_max = 100,
+  word_min = 3,
   style = {
     fg = nil,
     -- bg = "#4A708B",
     underline = true,
-  },
-  disable = false,
+  }
 }
 
 local function disable_cursorword()
@@ -28,10 +21,8 @@ local function disable_cursorword()
 end
 
 local function enable_cursorword()
-  if M.config.only_nor_mode then
-    if api.nvim_get_mode().mode ~= 'n' then
-      return
-    end
+  if api.nvim_get_mode().mode ~= 'n' then
+    return
   end
 
   -- filter some filetype
@@ -62,24 +53,15 @@ local function enable_cursorword()
   end
 
   if cursorword_str == ''
-    or #cursorword_str > M.config.word.max
-    or #cursorword_str < M.config.word.min
+    or #cursorword_str > local_M.word_max
+    or #cursorword_str < local_M.word_min
     or string.find(cursorword_str, '[\192-\255]+') ~= nil
   then
     return
   end
 
   local pattern = [[\<]] .. cursorword_str .. [[\>]]
-  vim.w.cursorword_id = vim.fn.matchadd("CursorWord", pattern, -1)
-end
-
-local function check_param(obj)
-  local max = obj.config.word.max
-  local min = obj.config.word.min
-  if min > max or min <= 0 then
-    M.config.word.max = word_def_cfg.max
-    M.config.word.min = word_def_cfg.min
-  end
+  vim.w.cursorword_id = vim.fn.matchadd(local_M.ns_name, pattern, -1)
 end
 
 function M.setup(opts)
@@ -88,8 +70,9 @@ function M.setup(opts)
     return
   end
 
-  check_param(M)
-  api.nvim_set_hl(0, "CursorWord", M.config.style)
+  local_M.ns_id = api.nvim_create_namespace(local_M.ns_name)
+
+  api.nvim_set_hl(0, local_M.ns_name, local_M.style)
 
   api.nvim_create_autocmd("CursorMoved", {
     pattern = "*",

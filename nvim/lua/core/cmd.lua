@@ -11,12 +11,25 @@ local function debug_info()
   print("runtime:" .. vim.inspect(api.nvim_list_runtime_paths()))
 end
 
-local function debug_runtime()
-  print("runtime:" .. vim.inspect(api.nvim_list_runtime_paths()))
-end
-
 api.nvim_create_user_command("DebugInfo", function(args)
   debug_info()
+end, {})
+
+local function toggle_command_mode()
+  local mode = api.nvim_get_mode().mode
+  if mode ~= "n" and mode ~= "c" then
+    return
+  end
+
+  if mode == "n" then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(":", true, false, true), "n", true)
+  elseif mode == "c" then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "c", true)
+  end
+end
+
+api.nvim_create_user_command("ToggleCommandMode", function()
+  toggle_command_mode()
 end, {})
 
 local mygrp = api.nvim_create_augroup("MYGRP", { clear = true })

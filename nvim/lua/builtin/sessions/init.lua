@@ -1,4 +1,3 @@
-local cfg = require("builtin.sessions.config")
 local session = require("builtin.sessions.session")
 local util = require("builtin.sessions.util")
 local M = {}

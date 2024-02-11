@@ -10,14 +10,14 @@ local function notify(content, level)
   level = level or vim.log.levels.INFO
 
   msg.push_msg(content, level)
-  if level < cfg.base.min_level then
+  if level < cfg.min_level then
     return
   end
 
-  if cfg.base.lifetime > 0 then
+  if cfg.lifetime > 0 then
     vim.defer_fn(function()
       msg.pop_msg()
-    end, cfg.base.lifetime * 1000)
+    end, cfg.lifetime * 1000)
   end
 end
 
@@ -33,4 +33,3 @@ function M.setup(opts)
 end
 
 return M
-

@@ -1,9 +1,11 @@
-local M = {}
 local api = vim.api
-local local_M = {}
-local_M.winid = nil
-local_M.bufnr = nil
-local_M.jobid = nil
+local M = {}
+local local_M = {
+  ns_name = "Term",
+  winid = nil,
+  bufnr = nil,
+  jobid = nil,
+}
 
 local function get_max_width()
   local columns = vim.o.columns
@@ -78,9 +80,6 @@ local function create_win()
 
   local_M.winid = winid
   api.nvim_win_set_option(local_M.winid, "winblend", 0)
-  -- if api.nvim_win_set_hl_ns then
-  --   api.nvim_win_set_hl_ns(local_M.winid, cfg.hl_grp.ns_id)
-  -- end
 
   if not local_M.jobid then
     local_M.jobid = vim.fn.termopen(get_cmd(), {
@@ -90,10 +89,10 @@ local function create_win()
     vim.cmd("startinsert!")
   end
 
-  local CloseTerm = api.nvim_create_augroup("CloseTerm", { clear = true })
-  local ResizeTerm = api.nvim_create_augroup("ResizeTerm", { clear = true })
+  local close_grp = api.nvim_create_augroup(local_M.ns_name .. "Close", { clear = true })
+  local resize_grp = api.nvim_create_augroup(local_M.ns_name .. "Resize", { clear = true })
   local resize_cmd =  api.nvim_create_autocmd({"VimResized"}, {
-    group = ResizeTerm,
+    group = resize_grp,
     buffer = local_M.bufnr,
     nested = true,
     callback = function(opts)
@@ -104,7 +103,7 @@ local function create_win()
   })
 
   api.nvim_create_autocmd({"QuitPre"}, {
-    group = CloseTerm,
+    group = close_grp,
     buffer = local_M.bufnr,
     nested = true,
     callback = function(opts)
@@ -112,8 +111,8 @@ local function create_win()
       local_M.jobid = nil
       delete_win()
 
-      api.nvim_del_augroup_by_id(ResizeTerm)
-      api.nvim_del_augroup_by_id(CloseTerm)
+      api.nvim_del_augroup_by_id(resize_grp)
+      api.nvim_del_augroup_by_id(close_grp)
       api.nvim_del_autocmd(opts.id)
       api.nvim_del_autocmd(resize_cmd)
     end

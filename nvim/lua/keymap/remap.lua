@@ -60,4 +60,3 @@ remap("n", "q", "<Nop>", opt)
 remap("n", "<leader>x", "<CMD>bn<CR>", opt)
 remap("n", "<leader>z", "<CMD>bp<CR>", opt)
 remap("n", "<leader>c", "<CMD>bd<CR>", opt)
-

@@ -1,11 +1,12 @@
 local cfg = require("builtin.notify.config")
 local api = vim.api
 local M = {}
-local local_M = {}
-local_M.winid = nil
-local_M.bufnr = nil
-local_M.buf_is_null = true
-local_M.history = {}
+local local_M = {
+  winid = nil,
+  bufnr = nil,
+  buf_is_null = true,
+  history = {},
+}
 
 local level_map = {
   "DEBUG",
@@ -93,9 +94,9 @@ function M.history_add(line, level)
 
   api.nvim_buf_set_option(local_M.bufnr, "modifiable", true)
   api.nvim_buf_set_lines(local_M.bufnr, -1, -1, false, { format_line })
-  api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyContent", 1 + #local_M.history, 0, #date)
-  api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyLevel", 1 + #local_M.history, #date + 2, #level_str)
-  api.nvim_buf_add_highlight(local_M.bufnr, cfg.hl_grp.ns_id, "NotifyMsg", 1 + #local_M.history, #date + 2 + #level_str + 3, -1)
+  api.nvim_buf_add_highlight(local_M.bufnr, cfg.ns_id, cfg.ns_name .. "Content", 1 + #local_M.history, 0, #date)
+  api.nvim_buf_add_highlight(local_M.bufnr, cfg.ns_id, cfg.ns_name .. "Level", 1 + #local_M.history, #date + 2, #level_str)
+  api.nvim_buf_add_highlight(local_M.bufnr, cfg.ns_id, cfg.ns_name .. "Msg", 1 + #local_M.history, #date + 2 + #level_str + 3, -1)
   api.nvim_buf_set_option(local_M.bufnr, "modifiable", false)
   local_M.history[#local_M.history] = format_line
 end
@@ -120,4 +121,3 @@ function M.history_toggle()
 end
 
 return M
-

@@ -1,9 +1,8 @@
 local ui = require("builtin.replace.ui")
-local cfg = require("builtin.replace.config")
 local api = vim.api
 local M = {}
 
-function MyMouseClick()
+local function MyMouseClick()
   local cursor_row, cursor_col = unpack(api.nvim_win_get_cursor(0))
   local clicked_row, clicked_col = unpack(vim.fn.getpos("."))
 
@@ -40,19 +39,19 @@ function MyMouseClick()
     -- end
 end
 
-function toggle_search_ui()
-  ui.toggle_search_ui()
-end
-
 function M.setup(opts)
   if opts then
     vim.notify("builtin replace don't need any options")
     return
   end
 
+  ui.create_hl_group()
+  ui.load_command()
+
   -- api.nvim_set_keymap('n', '<LeftMouse>', ':lua MyMouseClick()<CR>', { noremap = true, silent = true })
-  api.nvim_set_keymap('n', "<F9>", ":lua toggle_search_ui()<CR>", { noremap = true, silent = true })
+  api.nvim_set_keymap("n", "<F9>", "<cmd>SearchUIToggle<CR>", { noremap = true, silent = true })
+  api.nvim_set_keymap("n", "n", "<cmd>SearchNext<CR>", { noremap = true, silent = true })
+  api.nvim_set_keymap("n", "N", "<cmd>SearchPrev<CR>", { noremap = true, silent = true })
 end
 
 return M
-
