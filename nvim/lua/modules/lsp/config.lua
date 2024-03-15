@@ -66,6 +66,7 @@ function config.nvim_lspconfig()
     gopls = require("modules.lsp.lsp_server_config.gopls"),
     rust_analyzer = require("modules.lsp.lsp_server_config.rust_analyzer"),
     pyright = require("modules.lsp.lsp_server_config.comm"),
+    cmake = require("modules.lsp.lsp_server_config.comm"),
   }
   for server, serv_options in pairs(servers) do
     serv_options.on_attach = on_attach
@@ -244,29 +245,29 @@ function config.nvim_cmp()
              end
            end
       }),
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
-        -- they way you will only jump inside the snippet region
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        elseif has_words_before() then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
+      -- ["<Tab>"] = cmp.mapping(function(fallback)
+      --   if cmp.visible() then
+      --     cmp.select_next_item()
+      --   -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
+      --   -- they way you will only jump inside the snippet region
+      --   elseif luasnip.expand_or_jumpable() then
+      --     luasnip.expand_or_jump()
+      --   elseif has_words_before() then
+      --     cmp.complete()
+      --   else
+      --     fallback()
+      --   end
+      -- end, { "i", "s" }),
 
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
+      -- ["<S-Tab>"] = cmp.mapping(function(fallback)
+      --   if cmp.visible() then
+      --     cmp.select_prev_item()
+      --   elseif luasnip.jumpable(-1) then
+      --     luasnip.jump(-1)
+      --   else
+      --     fallback()
+      --   end
+      -- end, { "i", "s" }),
 
     }),
     snippet = {
@@ -294,6 +295,23 @@ function config.lua_snip()
   })
 
   require("modules.lsp.snippets")
+end
+
+function config.dadbod_ui()
+  vim.g.db_ui_use_nerd_fonts = 1
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+      "sql", "mysql", "plsql"
+    },
+    command = [[
+      lua require('cmp').setup.buffer({
+        sources = {
+          { name = 'vim-dadbod-completion' }
+        }
+      })
+    ]]
+  })
 end
 
 return config
