@@ -170,4 +170,8 @@ function config.indentmini()
   vim.cmd.highlight("default link IndentLine IndentMini_Line_Grp")
 end
 
+function config.spectre()
+  require("spectre").setup()
+end
+
 return config

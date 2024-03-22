@@ -41,5 +41,10 @@ map("n", "<leader>fb", "<CMD>Telescope buffers<CR>", opt)
 map("n", "<leader>fs", "<CMD>Telescope file_browser<CR>", opt)
 map("n", "<leader>ct", "<CMD>Telescope colorscheme theme=dropdown<CR>", opt)
 
+-- spectre
+map("n", "<leader>S", "<cmd>lua require('spectre').toggle()<CR>", opt)
+map({"n", "v"}, "<leader>sw", "<cmd>lua require('spectre').open_visual({select_word=true})<CR>", opt)
+map("n", "<leader>sf", "<cmd>lua require('spectre').open_file_search({select_word=true})<CR>", opt)
+
 map({"n", "c"}, "<A-x>", "<CMD>ToggleCommandMode<CR>", opt)
 
