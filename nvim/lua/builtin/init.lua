@@ -6,6 +6,7 @@ require("builtin.cursorword").setup()
 require("builtin.statusline").setup()
 require("builtin.sessions").setup()
 require("builtin.replace").setup()
+require("builtin.netrw").setup()
 
 -- if env.enable_plugin then
 --   return

@@ -1,0 +1,29 @@
+{
+    "CMake Binary Build TemPlate": {
+      "prefix": "bin_code",
+      "body": [
+        "cmake_minimum_required(VERSION 3.15)",
+        "project(APP VERSION 0.0.0)",
+        "",
+        "set(CMAKE_C_STANDARD 11)",
+        "set(CMAKE_CXX_STANDARD 14)",
+        "",
+        "set (CMAKE_C_COMPILER \"/usr/bin/gcc\")",
+        "set (CMAKE_CXX_COMPILER \"/usr/bin/g++\")"
+      ],
+      "description": "CMake Binary Template"
+    },
+    "Add define in begin and end of c/c++ header file": {
+      "prefix": "header_define",
+      "body": [
+        "#ifndef _${TM_FILENAME_BASE}_H_",
+        "#define _${TM_FILENAME_BASE}_H_",
+        "",
+        "$0",
+        "",
+        "#endif ${BLOCK_COMMENT_START} ${TM_FILENAME} ${BLOCK_COMMENT_END}",
+        "\n"
+      ],
+      "description": "Add header file define"
+    }
+}

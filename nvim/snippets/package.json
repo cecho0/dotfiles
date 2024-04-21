@@ -12,6 +12,14 @@
       {
         "language": "cpp",
         "path": "./cpp.json"
+      },
+      {
+        "language": "cmake",
+        "path": "./cmake.json"
+      },
+      {
+        "language": "make",
+        "path": "./make.json"
       }
     ]
   }
