@@ -11,6 +11,10 @@ package({
 
 package({
   "glepnir/lspsaga.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+  },
   ft = env.ft_enable,
   config = conf.lspsaga,
   enabled = env.enable_plugin and env.enable_lsp,
@@ -55,4 +59,3 @@ package({
   config = conf.dadbod_ui,
   enabled = env.enable_plugin and env.enable_lsp,
 })
-

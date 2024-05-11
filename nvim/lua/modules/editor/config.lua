@@ -107,16 +107,15 @@ function config.nvim_treesitter()
   vim.opt.runtimepath:append(env.data_home)
 end
 
-function config.mini_indentscope()
-  require("mini.indentscope").setup({
-    symbol = "│",
-    options = {
-      try_as_border = true,
-    },
-  })
+function config.spectre()
+  require("spectre").setup()
+end
 
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = {
+function config.mini_indent()
+  require("indentmini").setup({
+    -- char = "|",
+    current = true,
+    exclude = {
       "help",
       "alpha",
       "dashboard",
@@ -129,49 +128,10 @@ function config.mini_indentscope()
       "toggleterm",
       "lazyterm",
     },
-    callback = function()
-      vim.b.miniindentscope_disable = true
-    end,})
-end
-
-function config.indent_blankline()
-  require("ibl").setup({
-    indent = {
-      char = "│",
-      tab_char = "│",
-    },
-    scope = {
-      enabled = false,
-    },
-    exclude = {
-      filetypes = {
-        "help",
-        "alpha",
-        "dashboard",
-        "neo-tree",
-        "Trouble",
-        "trouble",
-        "lazy",
-        "mason",
-        "notify",
-        "toggleterm",
-        "lazyterm",
-      },
-    },
-  })
-end
-
-function config.indentmini()
-  require("indentmini").setup({
-    char = "│",
   })
 
-  vim.api.nvim_set_hl(0, "IndentMini_Line_Grp", { ctermfg = 14, fg = 7109270 })
-  vim.cmd.highlight("default link IndentLine IndentMini_Line_Grp")
-end
-
-function config.spectre()
-  require("spectre").setup()
+  vim.cmd.highlight("IndentLine guifg=#123456")
+  vim.cmd.highlight("IndentLineCurrent guifg=#f4a460")
 end
 
 return config

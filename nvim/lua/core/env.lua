@@ -45,7 +45,8 @@ function M:load_variables()
     "proto",
     "dockerfile"
   }
-  
+
+  self.icons_enable = true
   vim.opt.runtimepath:append(self:join_path(self.config_home, "lua", "core"))
 end
 

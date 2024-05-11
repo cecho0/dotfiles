@@ -3,21 +3,17 @@ local conf = require("modules.ui.config")
 local env = require("core.env")
 
 package({
-  "glepnir/dashboard-nvim",
-  config = conf.dashboard,
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
-  enabled = env.enable_plugin,
+  "nvim-tree/nvim-web-devicons",
+  enabled = env.icons_enable,
 })
 
 package({
-  "Bekaboo/deadcolumn.nvim",
-  event = "BufEnter",
-  config = function()
-    require("deadcolumn").setup()
-  end,
-  enabled = env.enable_plugin,
+  "glepnir/dashboard-nvim",
+  config = conf.dashboard,
+  dependencies = {
+      "nvim-tree/nvim-web-devicons",
+  },
+  enabled = env.enable_plugin and env.icons_enable,
 })
 
 package({
@@ -118,4 +114,3 @@ package({
   },
   enabled = env.enable_plugin,
 })
-

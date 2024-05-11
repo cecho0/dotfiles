@@ -1,3 +1,4 @@
+local env = require("core.env")
 local config = {}
 local api = vim.api
 
@@ -93,6 +94,7 @@ function config.lspsaga()
       theme = "round",
       title = true,
       border = "rounded",
+      devicon = false,
     },
     symbol_in_winbar = {
       enable = true,

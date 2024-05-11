@@ -7,11 +7,12 @@ require("builtin.statusline").setup()
 require("builtin.sessions").setup()
 require("builtin.replace").setup()
 require("builtin.netrw").setup()
+require("builtin.bigfile").setup()
 
--- if env.enable_plugin then
---   return
--- end
+if env.enable_plugin then
+  return
+end
 
-require("builtin.complete")
+-- require("builtin.complete")
 require("builtin.term").setup()
 vim.cmd("silent! colorscheme oxygen")

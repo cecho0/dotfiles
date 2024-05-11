@@ -1,5 +1,5 @@
 -- set nvim basic options
-local env = require('core.env')
+local env = require("core.env")
 
 -- common
 vim.opt.termguicolors  = true
