@@ -7,7 +7,6 @@ local local_M = {
   word_min = 3,
   style = {
     fg = nil,
-    -- bg = "#4A708B",
     underline = true,
   }
 }
@@ -21,7 +20,7 @@ local function disable_cursorword()
 end
 
 local function enable_cursorword()
-  if api.nvim_get_mode().mode ~= 'n' then
+  if api.nvim_get_mode().mode ~= "n" then
     return
   end
 
@@ -48,11 +47,11 @@ local function enable_cursorword()
 
   vim.w.cursorword_str = cursorword_str
   if vim.w.cursorword_id ~= nil and vim.w.cursorword_id >= 1 then
-    vim.call('matchdelete', vim.w.cursorword_id)
+    vim.call("matchdelete", vim.w.cursorword_id)
     vim.w.cursorword_id = nil
   end
 
-  if cursorword_str == ''
+  if cursorword_str == ""
     or #cursorword_str > local_M.word_max
     or #cursorword_str < local_M.word_min
     or string.find(cursorword_str, '[\192-\255]+') ~= nil
@@ -64,12 +63,7 @@ local function enable_cursorword()
   vim.w.cursorword_id = vim.fn.matchadd(local_M.ns_name, pattern, -1)
 end
 
-function M.setup(opts)
-  if opts then
-    vim.notify("builtin cursorword don't need any options")
-    return
-  end
-
+function M.setup()
   local_M.ns_id = api.nvim_create_namespace(local_M.ns_name)
 
   api.nvim_set_hl(0, local_M.ns_name, local_M.style)
@@ -85,3 +79,4 @@ function M.setup(opts)
 end
 
 return M
+

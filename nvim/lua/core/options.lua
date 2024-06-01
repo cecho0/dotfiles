@@ -1,168 +1,180 @@
--- set nvim basic options
 local env = require("core.env")
+local api = vim.api
+local opt = vim.opt
+
+-- leader
+vim.g.mapleader = ","
+
+-- disable some plugins
+vim.g.loaded_gzip = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_zip = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_getscript = 1
+vim.g.loaded_getscriptPlugin = 1
+vim.g.loaded_vimball = 1
+vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_logiPat = 1
+vim.g.loaded_rrhelper = 1
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrwSettings = 1
+-- vim.g.loaded_netrwFileHandlers = 1
 
 -- common
-vim.opt.termguicolors  = true
-vim.opt.number         = true
-vim.opt.mouse          = "nv"
-vim.opt.errorbells     = true
-vim.opt.visualbell     = true
-vim.opt.autoindent     = true
-vim.opt.history        = 2000
-vim.opt.laststatus     = 3
+opt.termguicolors  = true
+opt.number         = true
+opt.mouse          = "nv"
+opt.errorbells     = true
+opt.visualbell     = true
+opt.autoindent     = true
+opt.history        = 2000
+opt.laststatus     = 3
 -- the cursor don't move to the first char when do command
-vim.opt.startofline    = false
-vim.opt.ambiwidth      = "single"
-vim.opt.clipboard      = "unnamedplus"
+opt.startofline    = false
+opt.ambiwidth      = "single"
+opt.clipboard      = "unnamedplus"
+opt.virtualedit    = "block"
 
 -- syntax
-vim.opt.syntax         = "enable"
-vim.opt.synmaxcol      = 2500
+opt.syntax         = "enable"
+opt.synmaxcol      = 2500
 
 -- encode
-vim.opt.fileformat     = "unix"
-vim.opt.fileformats    = "unix,mac,dos"
+opt.fileformat     = "unix"
+opt.fileformats    = "unix,mac,dos"
 -- 内部使用的编码方式
-vim.opt.encoding       = "utf-8"
+opt.encoding       = "utf-8"
 -- 自动识别的字符编码
-vim.opt.fileencodings  = "utf-8,gb2312,ucs-bom,gb18030,gbk,cp936"
+opt.fileencodings  = "utf-8,gb2312,ucs-bom,gb18030,gbk,cp936"
 -- 在保存文件时，指定编码
-vim.opt.fileencoding   = "utf-8"
-
--- block, insert, all, onemore
-vim.opt.virtualedit    = "block"
-vim.opt.viewoptions    = "folds,cursor,curdir,slash,unix"
-
--- session
--- vim.opt.sessionoptions = "buffers,curdir,folds,envs,terminal,slash,unix,options,localoptions"
---vim.opt.shada          = "!,'300,<50,@100,s10,h"
+opt.fileencoding   = "utf-8"
 
 -- cache file
-vim.opt.backup         = false
-vim.opt.writebackup    = false
-vim.opt.swapfile       = false
-vim.opt.undofile       = true
-vim.opt.directory      = env:join_path(env.cache_home, "swap")
-vim.opt.undodir        = env:join_path(env.cache_home, "undo")
-vim.opt.backupdir      = env:join_path(env.cache_home, "backup")
-vim.opt.viewdir        = env:join_path(env.cache_home, "view")
-vim.opt.spellfile      = env:join_path(env.cache_home, "spell", "en.uft-8.add")
-vim.opt.backupskip     = "/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim"
+opt.backup         = false
+opt.writebackup    = false
+opt.swapfile       = false
+opt.undofile       = true
+opt.directory      = env:join_path(env.cache_home, "swap")
+opt.undodir        = env:join_path(env.cache_home, "undo")
+opt.backupdir      = env:join_path(env.cache_home, "backup")
+opt.viewdir        = env:join_path(env.cache_home, "view")
+opt.spellfile      = env:join_path(env.cache_home, "spell", "en.uft-8.add")
 -- the time of reflash swap file
-vim.opt.updatetime     = 100
+opt.updatetime     = 100
 
 -- code timeout
-vim.opt.timeout        = true
-vim.opt.ttimeout       = true
-vim.opt.timeoutlen     = 500
-vim.opt.ttimeoutlen    = 10
+opt.timeout        = true
+opt.ttimeout       = true
+opt.timeoutlen     = 500
+opt.ttimeoutlen    = 10
 
 -- tab
-vim.opt.smarttab       = true
-vim.opt.shiftround     = true
-vim.opt.expandtab      = true
-vim.opt.shiftwidth     = 4
-vim.opt.tabstop        = 4
-vim.opt.softtabstop    = -1
+opt.smarttab       = true
+opt.shiftround     = true
+opt.expandtab      = true
+opt.shiftwidth     = 4
+opt.tabstop        = 4
+opt.softtabstop    = -1
 
 -- buffer & tab bar & statusline
--- vim.opt.showtabline    = 4;
-vim.opt.showmode       = false
-vim.opt.showcmd        = false
-vim.opt.ruler          = false
-vim.opt.switchbuf      = "useopen"
-vim.opt.colorcolumn    = "80"
+-- opt.showtabline    = 4;
+opt.showmode       = false
+opt.showcmd        = false
+opt.ruler          = false
+opt.switchbuf      = "useopen"
+opt.colorcolumn    = "100"
 
 -- win size
-vim.opt.winwidth       = 30
-vim.opt.winminwidth    = 10
-vim.opt.winblend       = 10
-vim.opt.pumheight      = 15
-vim.opt.pumblend       = 10
-vim.opt.helpheight     = 12
-vim.opt.previewheight  = 12
+opt.winwidth       = 30
+opt.winminwidth    = 10
+opt.winblend       = 10
+opt.pumheight      = 15
+opt.pumblend       = 10
+opt.helpheight     = 12
+opt.previewheight  = 12
 
 -- editor
-vim.opt.hidden         = true
-vim.opt.autoread       = true
-vim.opt.showmatch      = true
-vim.opt.backspace      = "indent,eol,start"
-vim.opt.diffopt        = "filler,iwhite,internal,algorithm:patience"
-vim.opt.formatoptions  = "1jcroql"
+opt.hidden         = true
+opt.autoread       = true
+opt.showmatch      = true
+opt.backspace      = "indent,eol,start"
+opt.diffopt        = "filler,iwhite,internal,algorithm:patience"
 
 -- fold
-vim.opt.foldenable     = true
-vim.opt.foldlevelstart = 99
+opt.foldenable     = true
+opt.foldlevelstart = 99
 
 -- search
-vim.opt.incsearch      = true
-vim.opt.wrapscan       = true
-vim.opt.smartcase      = true
-vim.opt.ignorecase     = true
+opt.incsearch      = true
+opt.wrapscan       = true
+opt.smartcase      = true
+opt.ignorecase     = true
 -- 除了$、.、*、^、[ ]外其他正则表达式的符号需要加\转义
-vim.opt.magic          = true
-vim.opt.hlsearch       = true
+opt.magic          = true
+opt.hlsearch       = true
 
 -- cursor highlight
-vim.opt.cursorline     = true
-vim.opt.cursorcolumn   = false
+opt.cursorline     = true
+opt.cursorcolumn   = false
 
 -- complete
-vim.opt.complete       = ".,w,b,k"
-vim.opt.completeopt    = "menu,menuone,noselect"
-vim.opt.inccommand     = "nosplit"
+opt.complete       = ".,w,b,k"
+opt.completeopt    = "menu,menuone,noselect"
+opt.inccommand     = "nosplit"
 
 -- command mode complete
-vim.opt.wildmenu       = true
---vim.opt.wildmode       = "longest:list,full"
-vim.opt.infercase      = true
-vim.opt.wildignorecase = true
-vim.opt.wildignore     = ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**"
+opt.wildmenu       = true
+opt.infercase      = true
+opt.wildignorecase = true
+opt.wildignore     = ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**"
 
 -- grep
 if vim.fn.executable('rg') == 1 then
-  vim.opt.grepformat   = "%f:%l:%c:%m"
-  vim.opt.grepprg      = 'rg --hidden --vimgrep --smart-case --'
+  opt.grepformat   = "%f:%l:%c:%m"
+  opt.grepprg      = 'rg --hidden --vimgrep --smart-case --'
 end
 
 -- scrolloff
-vim.opt.scrolloff      = 2
-vim.opt.sidescrolloff  = 5
+opt.scrolloff      = 2
+opt.sidescrolloff  = 5
 
 -- wrap
-vim.opt.textwidth      = 0
-vim.opt.showbreak      = "↳  "
-vim.opt.wrap           = true
-vim.opt.linebreak      = true
-vim.opt.breakat        = [[\ \	;:,!?]]
-vim.opt.whichwrap      = "h,l"
-vim.opt.breakindent    = true
-vim.opt.breakindentopt = "shift:4,min:20"
+opt.textwidth      = 0
+opt.showbreak      = "↳  "
+opt.wrap           = true
+opt.linebreak      = true
+opt.breakat        = [[\ \	;:,!?]]
+opt.whichwrap      = "h,l"
+opt.breakindent    = true
+opt.breakindentopt = "shift:4,min:20"
 
 -- list
-vim.opt.list           = true
-vim.opt.listchars      = "tab:»·,nbsp:+,space: ,trail:·,extends:→,precedes:←"
-vim.opt.fillchars      = "eob: "
+opt.list           = true
+opt.listchars      = "tab:»·,nbsp:+,space: ,trail:·,extends:→,precedes:←"
+opt.fillchars      = "eob: "
 
 -- conceal
-vim.opt.conceallevel   = 0
-vim.opt.concealcursor  = "niv"
+opt.conceallevel   = 0
+opt.concealcursor  = "niv"
 
 -- pane split
-vim.opt.equalalways    = false
-vim.opt.splitbelow     = true
-vim.opt.splitright     = true
+opt.equalalways    = false
+opt.splitbelow     = true
+opt.splitright     = true
 
 -- command height
-vim.opt.cmdheight      = 0
-vim.opt.cmdwinheight   = 5
+opt.cmdheight      = 0
+opt.cmdwinheight   = 5
 
 -- other
-vim.opt.redrawtime     = 1500;
-vim.opt.display        = "lastline"
-vim.opt.jumpoptions    = "stack"
-vim.opt.shortmess      = "aoOTIcF"
-vim.opt.signcolumn     = "yes"
+opt.redrawtime     = 1500;
+opt.display        = "lastline"
+opt.signcolumn     = "yes"
 
 if vim.loop.os_uname().sysname == 'Darwin' then
   vim.g.clipboard = {
@@ -198,4 +210,36 @@ else
   -- vim.g.python_host_prog = '/usr/bin/python'
   -- vim.g.python3_host_prog = '/usr/local/bin/python3'
 end
+
+local function get_signs(name)
+  return function()
+    local bufnr = vim.api.nvim_win_get_buf(vim.g.statusline_winid)
+    local it = vim
+      .iter(api.nvim_buf_get_extmarks(bufnr, -1, 0, -1, { details = true, type = "sign" }))
+      :find(function(item)
+        return item[2] == vim.v.lnum - 1
+          and item[4].sign_hl_group
+          and item[4].sign_hl_group:find(name)
+      end)
+    return not it and "  " or ("%%#%s#%s%%*"):format(it[4].sign_hl_group, it[4].sign_text)
+  end
+end
+
+function _G.show_stc()
+  local stc_diagnostic = get_signs("Diagnostic")
+  local stc_gitsign = get_signs("GitSign")
+
+  local function show_break()
+    if vim.v.virtnum > 0 then
+      return (" "):rep(math.floor(math.ceil(math.log10(vim.v.lnum))) - 1) .. "↳"
+    elseif vim.v.virtnum < 0 then
+      return ""
+    else
+      return vim.v.lnum
+    end
+  end
+  return ('%s%%=%s%s'):format(stc_diagnostic(), show_break(), stc_gitsign())
+end
+
+vim.opt.stc = "%!v:lua.show_stc()"
 

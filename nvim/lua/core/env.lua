@@ -1,4 +1,3 @@
--- load some env variables
 local M = {}
 local os_name = vim.loop.os_uname().sysname
 local _enbale_plugin = true

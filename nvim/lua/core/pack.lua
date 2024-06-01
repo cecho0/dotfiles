@@ -1,4 +1,5 @@
 -- load pack
+local uv, api = vim.uv, vim.api
 local env = require("core.env")
 
 local pack = {}
@@ -9,10 +10,10 @@ function pack:load_modules_packages()
   self.repos = {}
 
   local list = vim.fs.find(
-    'plugins.lua',
+    "plugins.lua",
     {
       path = modules_home,
-      type = 'file',
+      type = "file",
       limit = 20
     }
   )
@@ -25,13 +26,11 @@ function pack:load_modules_packages()
     modules_home = modules_home:gsub("\\", "/")
   end
 
-  local disable_modules = {}
-
-  for _, f in pairs(list) do
+  vim.iter(list):map(function(f)
     local _, pos = f:find(modules_home)
     f = f:sub(pos - 6, #f - 4)
     require(f)
-  end
+  end)
 end
 
 function pack:init_plugins()

@@ -27,3 +27,4 @@ if api.nvim_win_set_hl_ns then
 end
 
 return M
+

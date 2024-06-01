@@ -1,5 +1,8 @@
 local api = vim.api
 local M = {}
+local local_M = {
+  ns_name = "SearchHL"
+}
 
 local function disable_hl()
   if vim.v.hlsearch == 0 then
@@ -7,11 +10,11 @@ local function disable_hl()
   end
 
   local keycode = api.nvim_replace_termcodes("<Cmd>nohlsearch<CR>", true, false, true)
-  api.nvim_feedkeys(keycode, 'n', false)
+  api.nvim_feedkeys(keycode, "n", false)
 end
 
 local function enable_hl()
-  local search_str = vim.fn.getreg('/')
+  local search_str = vim.fn.getreg("/")
   if vim.v.hlsearch == 1 and not vim.fn.search([[\%#\zs]] .. search_str, "cnW") then
     disable_hl()
   end
@@ -45,13 +48,8 @@ local function enable_auto_hl(hlgroup, bufnr)
   })
 end
 
-function M.setup(opts)
-  if opts then
-    vim.notify("builtin searchhl don't need any options")
-    return
-  end
-
-  local search_hl_grp = api.nvim_create_augroup("search_hl_grp", { clear = true })
+function M.setup()
+  local search_hl_grp = api.nvim_create_augroup(local_M.ns_name, { clear = true })
   api.nvim_create_autocmd("BufWinEnter", {
     group = search_hl_grp,
     callback = function(opt)

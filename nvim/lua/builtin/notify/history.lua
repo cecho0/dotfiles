@@ -121,3 +121,4 @@ function M.history_toggle()
 end
 
 return M
+

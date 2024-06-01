@@ -21,15 +21,11 @@ local function notify(content, level)
   end
 end
 
-function M.setup(opts)
-  if opts then
-    vim.notify("builtin notify don't need any options")
-    return
-  end
-
+function M.setup()
   msg.create_autocmd()
   msg.create_usercmd()
   vim.notify = notify
 end
 
 return M
+

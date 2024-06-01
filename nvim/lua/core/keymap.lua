@@ -1,4 +1,5 @@
 local api = vim.api
+
 local opt = {
   noremap = true,
   silent = true,
@@ -16,6 +17,50 @@ local function map(mode, key, action, options)
     api.nvim_set_keymap(v, key, action, options)
   end
 end
+
+-- terminal
+map("t", "<Esc>", "<C-\\><C-N>", opt)
+
+-- write
+map({"n", "i"}, "<leader>w", "<CMD>write<CR><Esc>", opt)
+
+-- quit
+map({"i", "n", "t"}, "<leader>q", "<CMD>quit<CR>", opt)
+
+-- global exit
+map({"n", "i"}, "ZZ", "<CMD>SaveAndExit<CR>", opt)
+map({"n", "i"}, "Zz", "<CMD>Exit<CR>", opt)
+
+-- jump to line head and tail
+map({"n", "v"}, "<leader>a", "^", opt)
+map({"n", "v"}, "<leader>d", "$", opt)
+
+-- select pane
+map("n", "<C-h>", "<C-w>h", opt)
+map("n", "<C-j>", "<C-w>j", opt)
+map("n", "<C-k>", "<C-w>k", opt)
+map("n", "<C-l>", "<C-w>l", opt)
+
+-- go
+map({"n", "v"}, "ge", "G", opt)
+map({"n", "v"}, "G", "<Nop>", opt)
+
+-- do not yank with x
+map("n", "x", '"_x', opt)
+map("v", "x", '"_x', opt)
+
+-- tab index
+map("v", "<TAB>", ">gv", opt)
+map("v", "<S-TAB>", "<gv", opt)
+
+-- macro
+map("n", "Q", "q", opt)
+map("n", "q", "<Nop>", opt)
+
+-- buffer
+map("n", "<leader>x", "<CMD>bn<CR>", opt)
+map("n", "<leader>z", "<CMD>bp<CR>", opt)
+map("n", "<leader>c", "<CMD>bd<CR>", opt)
 
 -- lspsaga
 map("n", "gf", "<cmd>Lspsaga finder def+ref+imp<CR>", opt)

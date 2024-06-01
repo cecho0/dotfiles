@@ -11,10 +11,6 @@ local function debug_info()
   print("runtime:" .. vim.inspect(api.nvim_list_runtime_paths()))
 end
 
-api.nvim_create_user_command("DebugInfo", function(args)
-  debug_info()
-end, {})
-
 local function toggle_command_mode()
   local mode = api.nvim_get_mode().mode
   if mode ~= "n" and mode ~= "c" then
@@ -27,6 +23,22 @@ local function toggle_command_mode()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "c", true)
   end
 end
+
+api.nvim_create_user_command("DebugInfo", function(args)
+  debug_info()
+end, {})
+
+api.nvim_create_user_command("NewFile", function()
+  api.nvim_command(":ene!")
+end, {})
+
+api.nvim_create_user_command("Exit", function()
+  api.nvim_command(":qa!")
+end, {})
+
+api.nvim_create_user_command("SaveAndExit", function()
+  api.nvim_command(":wqa")
+end, {})
 
 api.nvim_create_user_command("ToggleCommandMode", function()
   toggle_command_mode()

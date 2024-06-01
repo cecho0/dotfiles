@@ -7,12 +7,22 @@ function config.nvim_lspconfig()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-  local signs = {
-    Error = " ",
-    Warn = " ",
-    Info = " ",
-    Hint = " ",
-  }
+  local signs = {}
+  if env.icons_enable then
+    signs = {
+      Error = " ",
+      Warn = " ",
+      Info = " ",
+      Hint = " ",
+    }
+  else
+    signs = {
+      Error = "E ",
+      Warn = "W ",
+      Info = "I ",
+      Hint = "H ",
+    }
+  end
 
   for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
@@ -29,7 +39,7 @@ function config.nvim_lspconfig()
 
   vim.o.updatetime = 250
   local on_attach = function(client, bufnr)
-    vim.opt.omnifunc = 'v:lua.vim.lsp.omnifunc'
+    vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
     client.server_capabilities.semanticTokensProvider = nil
     local orignal = vim.notify
     local mynotify = function(msg, level, opts)
@@ -276,10 +286,10 @@ function config.nvim_cmp()
       end,
     },
     sources = {
-      { name = 'nvim_lsp' },
-      { name = 'luasnip' },
-      { name = 'path' },
-      { name = 'buffer' },
+      { name = "nvim_lsp" },
+      { name = "luasnip" },
+      { name = "path" },
+      { name = "buffer" },
     },
   })
 end
@@ -295,23 +305,6 @@ function config.lua_snip()
   })
 
   require("modules.lsp.snippets")
-end
-
-function config.dadbod_ui()
-  vim.g.db_ui_use_nerd_fonts = 1
-
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = {
-      "sql", "mysql", "plsql"
-    },
-    command = [[
-      lua require('cmp').setup.buffer({
-        sources = {
-          { name = 'vim-dadbod-completion' }
-        }
-      })
-    ]]
-  })
 end
 
 return config

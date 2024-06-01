@@ -20,7 +20,11 @@ end
 
 local function get_cmd()
   if vim.uv.os_uname().sysname == "Windows_NT" then
-    return "cmd.exe"
+    if vim.fn.executable("nu.exe") == 1 then
+      return "nu.exe"
+    else
+      return "cmd.exe"
+    end
   else
     return os.getenv("SHELL")
   end
@@ -91,7 +95,7 @@ local function create_win()
 
   local close_grp = api.nvim_create_augroup(local_M.ns_name .. "Close", { clear = true })
   local resize_grp = api.nvim_create_augroup(local_M.ns_name .. "Resize", { clear = true })
-  local resize_cmd =  api.nvim_create_autocmd({"VimResized"}, {
+  local resize_cmd = api.nvim_create_autocmd({"VimResized"}, {
     group = resize_grp,
     buffer = local_M.bufnr,
     nested = true,
@@ -148,12 +152,7 @@ local function load_command(keymap)
   })
 end
 
-function M.setup(opts)
-  if opts then
-    vim.notify("builtin term don't need any options.")
-    return
-  end
-
+function M.setup()
   load_command("<A-d>")
 end
 

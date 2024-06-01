@@ -89,12 +89,7 @@ local function render(comps, events, pieces)
   end)
 end
 
-function whk.setup(opts)
-  if opts then
-    vim.notify("builtin statusline don't need any options")
-    return
-  end
-
+function whk.setup()
   local comps, events, pieces = default()
   local stl_render = render(comps, events, pieces)
   for _, e in ipairs(vim.tbl_keys(events)) do

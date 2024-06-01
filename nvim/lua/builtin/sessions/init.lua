@@ -2,12 +2,7 @@ local session = require("builtin.sessions.session")
 local util = require("builtin.sessions.util")
 local M = {}
 
-function M.setup(opts)
-  if opts then
-    vim.notify("builtin sessions don't need any options")
-    return
-  end
-
+function M.setup()
   if not util.check_dir_valid() then
     return
   end

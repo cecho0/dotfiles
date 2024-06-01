@@ -130,7 +130,7 @@ function config.mini_indent()
     },
   })
 
-  vim.cmd.highlight("IndentLine guifg=#123456")
+  vim.cmd.highlight("IndentLine guifg=#999999")
   vim.cmd.highlight("IndentLineCurrent guifg=#f4a460")
 end
 
