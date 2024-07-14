@@ -1,118 +1,101 @@
-local co, api = coroutine, vim.api
-local whk = {}
+local co, api, iter = coroutine, vim.api, vim.iter
+local p, hl = require("builtin.statusline.provider"), api.nvim_set_hl
 
 local function stl_format(name, val)
-  return '%#Whisky' .. name .. '#' .. val .. '%*'
-end
-
-local function stl_hl(name, attr)
-  if not attr.bg then
-    attr.bg = "NONE"
-  end
-  api.nvim_set_hl(0, "Whisky" .. name, attr)
+  return ('%%#ModeLine%s#%s%%*'):format(name, val)
 end
 
 local function default()
-  local p = require("builtin.statusline.provider")
   local comps = {
-    --
-    p.space(),
     p.mode(),
     p.space(),
+    -- p.encoding(),
+    -- p.eol(),
+    -- [[%{(&modified&&&readonly?'%*':(&modified?'**':(&readonly?'%%':'--')))}  ]],
+    -- p.fileinfo(),
     p.fileicon(),
     p.fileinfo(),
     p.modified(),
-    --
+    -- '   %P   (L%l,C%c)  ',
+    -- ' %=',
+    -- [[ %{!empty(bufname()) ? '(' : ''}]],
+    -- '%{!empty(&filetype) ? toupper(strpart(&filetype, 0, 1)) . strpart(&filetype, 1) : toupper(strpart(&buftype, 0, 1)) . strpart(&buftype, 1)}',
+    -- [[%{!empty(bufname()) ? ')' : ''}]],
     p.pad(),
     p.lsp(),
-    p.diagError(),
-    p.diagWarn(),
-    p.diagInfo(),
-    p.diagHint(),
+    p.progress(),
+    p.space(),
+    p.diagnostic(),
     p.pad(),
-    --
-    p.space(),
-    p.gitadd(),
-    p.gitchange(),
-    p.gitdelete(),
-    p.space(),
-    p.branch(),
-    --
+    p.gitinfo(),
     p.space(),
     p.lnumcol(),
     p.space(),
     p.encoding(),
     p.space(),
     p.eol(),
-    p.space(),
-    --
+    -- '%=%=',
   }
-
   local e, pieces = {}, {}
-  vim.iter(ipairs(comps))
-    :map(function(key, item)
-      if type(item.stl) == "string" then
+  iter(ipairs(comps)):map(function(key, item)
+      if type(item) == 'string' then
+        pieces[#pieces + 1] = item
+      elseif type(item.stl) == 'string' then
         pieces[#pieces + 1] = stl_format(item.name, item.stl)
       else
-        pieces[#pieces + 1] = item.default and stl_format(item.name, item.default) or ""
+        pieces[#pieces + 1] = item.default and stl_format(item.name, item.default) or ''
         for _, event in ipairs({ unpack(item.event or {}) }) do
-          if not e[event] then
-            e[event] = {}
-          end
+          e[event] = e[event] or {}
           e[event][#e[event] + 1] = key
         end
       end
-
       if item.attr and item.name then
-        stl_hl(item.name, item.attr)
+        hl(0, ('ModeLine%s'):format(item.name), item.attr)
       end
-    end)
-    :totable()
+    end):totable()
   return comps, e, pieces
 end
 
 local function render(comps, events, pieces)
   return co.create(function(args)
     while true do
-      local event = args.event == "User" and args.event .. " " .. args.match or args.event
+      local event = args.event == 'User' and ('%s %s'):format(args.event, args.match) or args.event
       for _, idx in ipairs(events[event]) do
-        pieces[idx] = stl_format(comps[idx].name, comps[idx].stl(args))
+        if comps[idx].async then
+          local child = comps[idx].stl()
+          coroutine.resume(child, pieces, idx)
+        else
+          pieces[idx] = stl_format(comps[idx].name, comps[idx].stl(args))
+        end
       end
-
-      if #pieces[6] == 0 then
-        pieces[6] = stl_format(comps[6].name, comps[6].stl(args))
-      end
-
       vim.opt.stl = table.concat(pieces)
       args = co.yield()
     end
   end)
 end
 
-function whk.setup()
-  local comps, events, pieces = default()
-  local stl_render = render(comps, events, pieces)
-  for _, e in ipairs(vim.tbl_keys(events)) do
-    local tmp = e
-    local pattern
-    if e:find("User") then
-      pattern = vim.split(e, "%s")[2]
-      tmp = "User"
-    end
-
-    api.nvim_create_autocmd(tmp, {
-      pattern = pattern,
-      callback = function(args)
-        vim.schedule(function()
-          local ok, res = co.resume(stl_render, args)
-          if not ok then
-            vim.notify("[Whisky] render failed " .. res, vim.log.levels.ERROR)
-          end
-        end)
-      end,
-    })
-  end
-end
-
-return whk
-
+return {
+  setup = function()
+    local comps, events, pieces = default()
+    local stl_render = render(comps, events, pieces)
+    iter(vim.tbl_keys(events)):map(function(e)
+      local tmp = e
+      local pattern
+      if e:find('User') then
+        pattern = vim.split(e, '%s')[2]
+        tmp = 'User'
+      end
+      api.nvim_create_autocmd(tmp, {
+        pattern = pattern,
+        callback = function(args)
+          vim.schedule(function()
+            local ok, res = co.resume(stl_render, args)
+            if not ok then
+              vim.notify('[ModeLine] render failed ' .. res, vim.log.levels.ERROR)
+            end
+          end)
+        end,
+      })
+    end)
+  end,
+}

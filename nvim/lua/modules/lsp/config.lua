@@ -50,9 +50,10 @@ function config.nvim_lspconfig()
     end
     vim.notify = mynotify
 
-    local ok, err = pcall(vim.lsp.inlay_hint.enable, bufnr, true)
-    if not ok then
-      vim.notify("lsp err: " .. err)
+    if vim.lsp.inlay_hint then
+      if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable(true)
+      end
     end
 
     api.nvim_create_autocmd("CursorHold", {

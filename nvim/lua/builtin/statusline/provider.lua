@@ -1,26 +1,31 @@
-local api, uv, lsp = vim.api, vim.uv, vim.lsp
-local pd = {}
+local api, uv, lsp, diagnostic, M = vim.api, vim.uv, vim.lsp, vim.diagnostic, {}
+local fnamemodify = vim.fn.fnamemodify
+
+local function path_sep()
+  return uv.os_uname().sysname == "Windows_NT" and "\\" or "/"
+end
 
 local function get_stl_bg()
-  return "NONE"
+  return 'None'
+  -- return api.nvim_get_hl(0, { name = 'StatusLine' }).bg or 'back'
 end
 
-local stl_bg
-if not stl_bg then
-  stl_bg = get_stl_bg()
-end
-
-local function stl_attr(group, trans)
+local stl_bg = get_stl_bg()
+local function stl_attr(group)
   local color = api.nvim_get_hl(0, { name = group, link = false })
-  trans = trans or false
   return {
-    bg = "NONE",
+    bg = stl_bg,
     fg = color.fg,
   }
 end
 
+local function group_fmt(prefix, name, val)
+  return ('%%#ModeLine%s%s#%s%%*'):format(prefix, name, val)
+end
+
 local function alias_mode()
   return {
+    --Normal
     ['n'] = 'Normal',
     ['no'] = 'O-Pending',
     ['nov'] = 'O-Pending',
@@ -60,28 +65,28 @@ local function alias_mode()
   }
 end
 
-function pd.mode()
+function M.mode()
   local alias = alias_mode()
-  local result = {
+  return {
     stl = function()
       local mode = api.nvim_get_mode().mode
-      return alias[mode] or alias[string.sub(mode, 1, 1)] or "UNK"
+      local m = alias[mode] or alias[string.sub(mode, 1, 1)] or 'UNK'
+      return m:sub(1, 3):upper()
     end,
     name = "mode",
-    default = "Normal",
+    default = "NOR",
     event = { "ModeChanged" },
-    attr = stl_attr("Constant")
+    attr = {
+      bg = stl_bg,
+      fg = '#445566',
+      bold = true,
+    },
   }
-  return result
-end
-
-local function path_sep()
-  return uv.os_uname().sysname == "Windows_NT" and "\\" or "/"
 end
 
 local ok, devicon = pcall(require, "nvim-web-devicons")
 local icon, color
-function pd.fileicon()
+function M.fileicon()
   return {
     stl = function()
       if ok then
@@ -99,7 +104,7 @@ function pd.fileicon()
   }
 end
 
-function pd.fileinfo()
+function M.fileinfo()
   local result = {
     stl = "%t",
     name = "fileinfo",
@@ -109,7 +114,7 @@ function pd.fileinfo()
   return result
 end
 
-function pd.modified()
+function M.modified()
   local result = {
     stl = "%m",
     name = "filemodified",
@@ -119,119 +124,138 @@ function pd.modified()
   return result
 end
 
-function pd.lsp()
-  local function lsp_stl(args)
-    local client = lsp.get_client_by_id(args.data.client_id)
-    local msg = client and client.name or ''
-    if args.data.result then
-      local val = args.data.result.value
-      msg = val.title
-        .. ' '
-        .. (val.message and val.message .. ' ' or '')
-        .. (val.percentage and val.percentage .. '%' or '')
-      if not val.message or val.kind == 'end' then
-        ---@diagnostic disable-next-line: need-check-nil
-        msg = client.name
+function M.progress()
+  local spinner = { '⣶', '⣧', '⣏', '⡟', '⠿', '⢻', '⣹', '⣼' }
+  local idx = 1
+  return {
+    stl = function(args)
+      if args.data and args.data.params then
+        local val = args.data.params.value
+        if val.message and val.kind ~= 'end' then
+          idx = idx + 1 > #spinner and 1 or idx + 1
+          return ('%s'):format(spinner[idx - 1 > 0 and idx - 1 or 1])
+        end
       end
-    elseif args.event == 'LspDetach' then
-      msg = ''
+      return ''
+    end,
+    name = 'LspProgress',
+    event = { 'LspProgress' },
+    attr = stl_attr('Type'),
+  }
+end
+
+function M.lsp()
+  return {
+    stl = function(args)
+      local client = lsp.get_clients({ bufnr = 0 })[1]
+      if not client then
+        return ''
+      end
+      local msg = ''
+      if args.data and args.data.params then
+        local val = args.data.params.value
+        if not val.message or val.kind == 'end' then
+          msg = ('[%s:%s]'):format(
+            client.name,
+            client.root_dir and fnamemodify(client.root_dir, ':t') or 'single'
+          )
+        else
+          msg = ('%s %s%s'):format(
+            val.title,
+            (val.message and val.message .. ' ' or ''),
+            (val.percentage and val.percentage .. '%' or '')
+          )
+        end
+      elseif args.event == 'BufEnter' or args.event == 'LspAttach' then
+        msg = ('[%s:%s]'):format(
+          client.name,
+          client.root_dir and fnamemodify(client.root_dir, ':t') or 'single'
+        )
+      elseif args.event == 'LspDetach' then
+        msg = ''
+      end
+      return '   %-20s' .. msg
+    end,
+    name = 'Lsp',
+    event = { 'LspProgress', 'LspAttach', 'LspDetach', 'BufEnter' },
+    attr = {
+      bg = stl_bg,
+      fg = "#dddddd"
+    }
+  }
+end
+
+function M.gitinfo()
+  local alias = { 'Head', 'Add', 'Change', 'Delete' }
+  for i = 2, 4 do
+    local fg = api.nvim_get_hl(0, { name = 'GitSigns' .. alias[i] }).fg
+    api.nvim_set_hl(0, 'ModeLineGit' .. alias[i], { fg = fg, bg = stl_bg })
+  end
+  return {
+    stl = function()
+      return coroutine.create(function(pieces, idx)
+        local signs = { '', '+', '~', '-' }
+        local order = { 'head', 'added', 'changed', 'removed' }
+
+        local ok, dict = pcall(api.nvim_buf_get_var, 0, 'gitsigns_status_dict')
+        if not ok or vim.tbl_isempty(dict) then
+          return ''
+        end
+        if dict['head'] == '' then
+          local co = coroutine.running()
+          vim.system(
+            { 'git', 'config', '--get', 'init.defaultBranch' },
+            { text = true },
+            function(result)
+              coroutine.resume(co, #result.stdout > 0 and vim.trim(result.stdout) or nil)
+            end
+          )
+          dict['head'] = coroutine.yield()
+        end
+        local parts = ''
+        for i = 1, 4 do
+          if i == 1 or (type(dict[order[i]]) == 'number' and dict[order[i]] > 0) then
+            parts = ('%s %s'):format(parts, group_fmt('Git', alias[i], signs[i] .. dict[order[i]]))
+          end
+        end
+        pieces[idx] = parts
+      end)
+    end,
+    async = true,
+    name = 'git',
+    event = { 'User GitSignsUpdate', 'BufEnter' },
+  }
+end
+
+local function diagnostic_info()
+  return function()
+    if not vim.diagnostic.is_enabled({ bufnr = 0 }) or #lsp.get_clients({ bufnr = 0 }) == 0 then
+      return ''
     end
-    return '%.40{"' .. " " .. msg .. '"}'
+    local t = {}
+    for i = 1, 3 do
+      local count = #diagnostic.get(0, { severity = i })
+      t[#t + 1] = ('%%#ModeLine%s#%s%%*'):format(vim.diagnostic.severity[i], count)
+    end
+    return (' Diagnostic[%s]'):format(table.concat(t, ' '))
   end
-
-  local result = {
-    stl = lsp_stl,
-    name = "Lsp",
-    event = { "LspProgress", "LspAttach", "LspDetach" },
-    attr = {
-      fg = "#a195c5",
-    }
-  }
-  return result
 end
 
-local function gitsigns_data(bufnr, type)
-  local ok, dict = pcall(api.nvim_buf_get_var, bufnr, "gitsigns_status_dict")
-  if not ok or vim.tbl_isempty(dict) or not dict[type]then
-    return 0
+function M.diagnostic()
+  for i = 1, 3 do
+    local name = ('Diagnostic%s'):format(diagnostic.severity[i])
+    local fg = api.nvim_get_hl(0, { name = name }).fg
+    api.nvim_set_hl(0, 'ModeLine' .. diagnostic.severity[i], { fg = fg, bg = stl_bg })
   end
-
-  return dict[type]
-end
-
-local function git_icons(type)
-  local tbl = {
-    ["added"] = " ",
-    ["changed"] = " ",
-    ["deleted"] = " ",
+  return {
+    stl = diagnostic_info(),
+    event = { 'DiagnosticChanged', 'BufEnter', 'LspAttach' },
   }
-  return tbl[type]
 end
 
-function pd.gitadd()
+function M.lnumcol()
   local result = {
-    stl = function(args)
-      local res = gitsigns_data(args.buf, "added")
-      return res > 0 and git_icons("added") .. res or ""
-    end,
-    name = "gitadd",
-    event = { "User GitSignsUpdate", "BufEnter" },
-    attr = {
-      fg = "#9987ce"
-    }
-  }
-  return result
-end
-
-function pd.gitchange()
-  local result = {
-    stl = function(args)
-      local res = gitsigns_data(args.buf, "changed")
-      return res > 0 and git_icons("changed") .. res or ""
-    end,
-    name = "gitchange",
-    event = { "User GitSignsUpdate", "BufEnter" },
-    attr = {
-      fg = "#9987ce"
-    }
-  }
-  return result
-end
-
-function pd.gitdelete()
-  local result = {
-    stl = function(args)
-      local res = gitsigns_data(args.buf, "removed" )
-      return res > 0 and git_icons("deleted") .. res or ""
-    end,
-    name = "gitdelete",
-    event = { "User GitSignsUpdate", "BufEnter" },
-    attr = {
-      fg = "#9987ce"
-    }
-  }
-  return result
-end
-
-function pd.branch()
-  local icon = " "
-  local result = {
-    stl = function(args)
-      local res = gitsigns_data(args.buf, "head")
-      return res and icon .. res or "UNKOWN"
-    end,
-    name = "gitbranch",
-    event = { "User GitSignsUpdate" },
-    attr = {
-      fg = "#7898e1",
-    },
-  }
-  return result
-end
-
-function pd.lnumcol()
-  local result = {
-    stl = "%-4.(%l:%c%) %P",
+    stl = "%-4.(L%l,C%c%) %P",
     name = "linecol",
     event = { "CursorHold" },
     attr = {
@@ -241,66 +265,20 @@ function pd.lnumcol()
   return result
 end
 
-local function diagnostic_info(severity)
-  if vim.diagnostic.is_disabled(0) then
-    return ""
-  end
-  local count = #vim.diagnostic.get(0, { severity = severity })
-  return count == 0 and "" or "⏶" .. tostring(count) .. " "
-end
+local ff = {
+  unix = "LF",
+  mac = "CR",
+  dos = "CRLF",
+}
 
-function pd.diagError()
-  local result = {
-    stl = function()
-      return diagnostic_info(1)
-    end,
-    name = "diagError",
-    event = { "DiagnosticChanged", "BufEnter" },
-    attr = stl_attr("DiagnosticError")
-  }
-  return result
-end
-
-function pd.diagWarn()
-  local result = {
-    stl = function()
-      return diagnostic_info(2)
-    end,
-    name = "diagWarn",
-    event = { "DiagnosticChanged", "BufEnter" },
-    attr = stl_attr("DiagnosticWarn")
-  }
-  return result
-end
-
-function pd.diagInfo()
-  local result = {
-    stl = function()
-      return diagnostic_info(3)
-    end,
-    name = "diaginfo",
-    event = { "DiagnosticChanged", "BufEnter" },
-    attr = stl_attr("DiagnosticInfo"),
-  }
-  return result
-end
-
-function pd.diagHint()
-  local result = {
-    stl = function()
-      return diagnostic_info(4)
-    end,
-    name = "diaghint",
-    event = { "DiagnosticChanged", "BufEnter" },
-    attr = stl_attr("DiagnosticHint")
-  }
-  return result
-end
-
-function pd.eol()
+function M.eol()
   return {
     name = "eol",
-    stl = path_sep() == "/" and "LF" or "CRLF",
+    -- stl = path_sep() == "/" and "LF" or "CRLF",
+    stl = function()
+      local fmt = vim.bo.fileformat
+      return ff[fmt] or "UNK"
+    end,
     event = { "BufEnter" },
     attr = {
       fg = "#CDCDCD",
@@ -308,15 +286,18 @@ function pd.eol()
   }
 end
 
-function pd.encoding()
+function M.encoding()
   local result = {
     stl = function()
-      local bufnr = api.nvim_get_current_buf()
-      if api.nvim_buf_is_valid(bufnr) then
-        return tostring(vim.bo[bufnr].fileencoding)
-      end
+      -- local bufnr = api.nvim_get_current_buf()
+      -- if api.nvim_buf_is_valid(bufnr) then
+      --   return tostring(vim.bo[bufnr].fileencoding)
+      -- end
 
-      return "%{&fileencoding?&fileencoding:&encoding}"
+      -- return "%{&fileencoding?&fileencoding:&encoding}"
+      local enc = (vim.bo.fenc ~= '' and vim.bo.fenc) or vim.o.enc -- :h 'enc'
+      -- return enc ~= 'utf-8' and enc:upper()
+      return enc:upper()
     end,
     name = "filencode",
     event = { "BufEnter", "FileChangedRO", "ModeChanged" },
@@ -327,7 +308,7 @@ function pd.encoding()
   return result
 end
 
-function pd.pad()
+function M.pad()
   return {
     stl = "%=",
     name = "pad",
@@ -335,7 +316,7 @@ function pd.pad()
   }
 end
 
-function pd.space()
+function M.space()
   return {
     stl = " ",
     name = "space",
@@ -343,5 +324,4 @@ function pd.space()
   }
 end
 
-return pd
-
+return M
