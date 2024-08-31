@@ -36,27 +36,46 @@ local function default()
     p.eol(),
     -- '%=%=',
   }
-  local e, pieces = {}, {}
+
+  local e, pieces, hls = {}, {}, {}
   iter(ipairs(comps)):map(function(key, item)
-      if type(item) == 'string' then
-        pieces[#pieces + 1] = item
-      elseif type(item.stl) == 'string' then
-        pieces[#pieces + 1] = stl_format(item.name, item.stl)
-      else
-        pieces[#pieces + 1] = item.default and stl_format(item.name, item.default) or ''
-        for _, event in ipairs({ unpack(item.event or {}) }) do
-          e[event] = e[event] or {}
-          e[event][#e[event] + 1] = key
+    if type(item) == 'string' then
+      pieces[#pieces + 1] = item
+    elseif type(item.stl) == 'string' then
+      pieces[#pieces + 1] = stl_format(item.name, item.stl)
+    else
+      pieces[#pieces + 1] = item.default and stl_format(item.name, item.default) or ''
+      for _, event in ipairs({ unpack(item.event or {}) }) do
+        e[event] = e[event] or {}
+        e[event][#e[event] + 1] = key
+      end
+    end
+
+    if item.attr and item.name then
+      local hl_attr = {}
+      local hl_def = {}
+      local all_comm = true
+      for attr_k, attr_v in pairs(item.attr) do
+        hl_attr[attr_k] = attr_v
+        hl_def[attr_k] = attr_v
+        if (type(attr_v) == "function") then
+          all_comm = false
+          hl_def[attr_k] = attr_v()
         end
       end
-      if item.attr and item.name then
-        hl(0, ('ModeLine%s'):format(item.name), item.attr)
+
+      hl(0, ('ModeLine%s'):format(item.name), hl_def)
+
+      if not all_comm then
+        hls[("ModeLine%s"):format(item.name)] = hl_attr
       end
-    end):totable()
-  return comps, e, pieces
+    end
+  end):totable()
+
+  return comps, e, pieces, hls
 end
 
-local function render(comps, events, pieces)
+local function render(comps, events, pieces, hls)
   return co.create(function(args)
     while true do
       local event = args.event == 'User' and ('%s %s'):format(args.event, args.match) or args.event
@@ -66,6 +85,18 @@ local function render(comps, events, pieces)
           coroutine.resume(child, pieces, idx)
         else
           pieces[idx] = stl_format(comps[idx].name, comps[idx].stl(args))
+          if hls[("ModeLine%s"):format(comps[idx].name)] then
+            vim.print("??")
+            local hl_attr = {}
+            for attr_k, attr_v in pairs(comps[idx].attr) do
+              if (type(attr_v) == "function") then
+                hl_attr[attr_k] = attr_v()
+              else
+                hl_attr[attr_k] = attr_v
+              end
+            end
+            hl(0, ('ModeLine%s'):format(comps[idx].name), hl_attr)
+          end
         end
       end
       vim.opt.stl = table.concat(pieces)
@@ -76,8 +107,8 @@ end
 
 return {
   setup = function()
-    local comps, events, pieces = default()
-    local stl_render = render(comps, events, pieces)
+    local comps, events, pieces, hls = default()
+    local stl_render = render(comps, events, pieces, hls)
     iter(vim.tbl_keys(events)):map(function(e)
       local tmp = e
       local pattern

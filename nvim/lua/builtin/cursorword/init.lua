@@ -1,6 +1,7 @@
 local api = vim.api
 local M = {}
-local local_M = {
+local config = {
+  enable = true,
   ns_name = "CursorWord",
   ns_id = nil,
   word_max = 100,
@@ -12,6 +13,10 @@ local local_M = {
 }
 
 local function disable_cursorword()
+  if not config.enable then
+    return
+  end
+
   if vim.w.cursorword_id ~= nil and vim.w.cursorword_id ~= 0 then
     vim.fn.matchdelete(vim.w.cursorword_id)
     vim.w.cursorword_id = nil
@@ -20,6 +25,10 @@ local function disable_cursorword()
 end
 
 local function enable_cursorword()
+  if not config.enable then
+    return
+  end
+
   if api.nvim_get_mode().mode ~= "n" then
     return
   end
@@ -52,21 +61,28 @@ local function enable_cursorword()
   end
 
   if cursorword_str == ""
-    or #cursorword_str > local_M.word_max
-    or #cursorword_str < local_M.word_min
+    or #cursorword_str > config.word_max
+    or #cursorword_str < config.word_min
     or string.find(cursorword_str, '[\192-\255]+') ~= nil
   then
     return
   end
 
   local pattern = [[\<]] .. cursorword_str .. [[\>]]
-  vim.w.cursorword_id = vim.fn.matchadd(local_M.ns_name, pattern, -1)
+  vim.w.cursorword_id = vim.fn.matchadd(config.ns_name, pattern, -1)
+end
+
+function M.status()
+  return config.enable and "ON" or "OFF"
+end
+
+function M.enable(enable)
+  config.enable = enable
 end
 
 function M.setup()
-  local_M.ns_id = api.nvim_create_namespace(local_M.ns_name)
-
-  api.nvim_set_hl(0, local_M.ns_name, local_M.style)
+  config.ns_id = api.nvim_create_namespace(config.ns_name)
+  api.nvim_set_hl(0, config.ns_name, config.style)
 
   api.nvim_create_autocmd("CursorMoved", {
     pattern = "*",
@@ -76,7 +92,8 @@ function M.setup()
     pattern = "*",
     callback = disable_cursorword,
   })
+
+
 end
 
 return M
-

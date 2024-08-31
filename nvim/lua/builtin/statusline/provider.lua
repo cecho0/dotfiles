@@ -65,8 +65,20 @@ local function alias_mode()
   }
 end
 
+local function mode_color()
+  return {
+    ['NOR'] = "#778899",
+    ['INS'] = "#FF69B4",
+    ['VIS'] = "#7B68EE",
+    ['V-L'] = "#7B68EE",
+    ['TER'] = "#FF8C00",
+    ['UNK'] = "#D4F2E7",
+  }
+end
+
 function M.mode()
   local alias = alias_mode()
+  local colors = mode_color()
   return {
     stl = function()
       local mode = api.nvim_get_mode().mode
@@ -78,7 +90,17 @@ function M.mode()
     event = { "ModeChanged" },
     attr = {
       bg = stl_bg,
-      fg = '#445566',
+      -- fg = '#445566',
+      fg = function()
+        local mode = api.nvim_get_mode().mode
+        local m = alias[mode] or alias[string.sub(mode, 1, 1)] or 'UNK'
+
+        if colors[m:sub(1, 3):upper()] then
+          return colors[m:sub(1, 3):upper()]
+        else
+          return colors["UNK"]
+        end
+      end,
       bold = true,
     },
   }
