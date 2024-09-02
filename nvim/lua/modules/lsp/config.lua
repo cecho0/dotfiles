@@ -8,7 +8,7 @@ function config.nvim_lspconfig()
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
   local signs = {}
-  if env.icons_enable then
+  if env.enable_icons then
     signs = {
       Error = " ",
       Warn = " ",

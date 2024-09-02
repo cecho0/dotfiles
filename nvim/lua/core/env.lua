@@ -2,6 +2,7 @@ local M = {}
 local os_name = vim.loop.os_uname().sysname
 local _enbale_plugin = true
 local _enable_lsp = true
+local _enable_icons = true
 
 function M:join_path(...)
   return table.concat({ ... }, M.sep)
@@ -45,7 +46,7 @@ function M:load_variables()
     "dockerfile"
   }
 
-  self.icons_enable = true
+  self.enable_icons = _enable_icons
   vim.opt.runtimepath:append(self:join_path(self.config_home, "lua", "core"))
 end
 

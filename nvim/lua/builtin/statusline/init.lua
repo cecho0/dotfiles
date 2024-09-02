@@ -64,6 +64,11 @@ local function default()
         end
       end
 
+      if item.attr["bg"] then
+        hl_attr["bg"] = "None"
+        hl_def["bg"] = "None"
+      end
+
       hl(0, ('ModeLine%s'):format(item.name), hl_def)
 
       if not all_comm then
@@ -86,7 +91,6 @@ local function render(comps, events, pieces, hls)
         else
           pieces[idx] = stl_format(comps[idx].name, comps[idx].stl(args))
           if hls[("ModeLine%s"):format(comps[idx].name)] then
-            vim.print("??")
             local hl_attr = {}
             for attr_k, attr_v in pairs(comps[idx].attr) do
               if (type(attr_v) == "function") then

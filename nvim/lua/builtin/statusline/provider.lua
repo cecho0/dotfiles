@@ -90,7 +90,6 @@ function M.mode()
     event = { "ModeChanged" },
     attr = {
       bg = stl_bg,
-      -- fg = '#445566',
       fg = function()
         local mode = api.nvim_get_mode().mode
         local m = alias[mode] or alias[string.sub(mode, 1, 1)] or 'UNK'
@@ -108,9 +107,14 @@ end
 
 local ok, devicon = pcall(require, "nvim-web-devicons")
 local icon, color
+local enable_icons = require("core.env").enable_icons
 function M.fileicon()
   return {
     stl = function()
+      if not enable_icons then
+        return ""
+      end
+
       if ok then
         icon, color = devicon.get_icon_color_by_filetype(vim.bo.filetype, { default = true })
         api.nvim_set_hl(0, "Whiskyfileicon", { bg = stl_bg, fg = color })

@@ -1,3 +1,4 @@
+-- neovide gui client configure
 
 -- font family and size
 local function neovide_font()

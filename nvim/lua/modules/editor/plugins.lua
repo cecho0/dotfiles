@@ -10,6 +10,7 @@ package({
     "nvim-lua/plenary.nvim",
     "BurntSushi/ripgrep",
     "sharkdp/fd",
+    "nvim-telescope/telescope-fzf-native.nvim",
     "nvim-telescope/telescope-file-browser.nvim",
   },
   enabled = env.enable_plugin,

@@ -4,7 +4,7 @@ local env = require("core.env")
 
 package({
   "nvim-tree/nvim-web-devicons",
-  enabled = env.icons_enable,
+  enabled = env.enable_plugin,
 })
 
 package({
@@ -13,7 +13,7 @@ package({
   dependencies = {
       "nvim-tree/nvim-web-devicons",
   },
-  enabled = env.enable_plugin and env.icons_enable,
+  enabled = env.enable_plugin,
 })
 
 package({
