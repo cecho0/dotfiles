@@ -206,7 +206,7 @@ function M.lsp()
     event = { 'LspProgress', 'LspAttach', 'LspDetach', 'BufEnter' },
     attr = {
       bg = stl_bg,
-      fg = "#dddddd"
+      fg = "#FF8C00"
     }
   }
 end
@@ -261,9 +261,13 @@ local function diagnostic_info()
     local t = {}
     for i = 1, 3 do
       local count = #diagnostic.get(0, { severity = i })
-      t[#t + 1] = ('%%#ModeLine%s#%s%%*'):format(vim.diagnostic.severity[i], count)
+      if i == 3 then
+        t[#t + 1] = ('%%#ModeLine%s#%s%%*'):format(vim.diagnostic.severity[i], count)
+      else
+        t[#t + 1] = ('%%#ModeLine%s#%s %%*'):format(vim.diagnostic.severity[i], count)
+      end
     end
-    return (' Diagnostic[%s]'):format(table.concat(t, ' '))
+    return (' Diag[%s]'):format(table.concat(t, ''))
   end
 end
 
@@ -275,6 +279,9 @@ function M.diagnostic()
   end
   return {
     stl = diagnostic_info(),
+    name = "diagnostic",
+    attr = {
+    },
     event = { 'DiagnosticChanged', 'BufEnter', 'LspAttach' },
   }
 end
