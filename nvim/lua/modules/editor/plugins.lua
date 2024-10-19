@@ -99,3 +99,19 @@ package({
   enabled = env.enable_plugin,
 })
 
+package({
+  "nvim-zh/colorful-winsep.nvim",
+  event = { "WinLeave" },
+  config = function()
+    require("colorful-winsep").setup()
+  end,
+})
+
+package({
+  "karb94/neoscroll.nvim",
+  event = "BufEnter",
+  config = function()
+    require("neoscroll").setup()
+  end,
+})
+

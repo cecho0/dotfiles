@@ -7,6 +7,7 @@ require("builtin.file").setup()
 require("builtin.notify").setup()
 require("builtin.statusline").setup()
 require("builtin.sessions").setup()
+require("builtin.deadline").setup()
 
 if env.enable_plugin then
   return
