@@ -94,7 +94,7 @@ function M.setup()
     vim.notify("[DeadColumn] config.custom_colorcolumn must be function that return string or table")
     return
   end
-
+  
   local ins_group = api.nvim_create_augroup("DeadColumnEnable", { clear = true })
   api.nvim_create_autocmd({ "InsertEnter", "CursorMovedI", "InsertCharPre" },
     {
@@ -102,7 +102,7 @@ function M.setup()
       callback = update,
     }
   )
-
+  
   local nor_group = api.nvim_create_augroup("DeadColumnDisable", { clear = true })
   api.nvim_create_autocmd({ "InsertLeave" },
     {

@@ -3,15 +3,10 @@ local conf = require("modules.ui.config")
 local env = require("core.env")
 
 package({
-  "nvim-tree/nvim-web-devicons",
-  enabled = env.enable_plugin,
-})
-
-package({
   "glepnir/dashboard-nvim",
   config = conf.dashboard,
   dependencies = {
-      "nvim-tree/nvim-web-devicons",
+    "nvim-tree/nvim-web-devicons",
   },
   enabled = env.enable_plugin,
 })
@@ -26,30 +21,8 @@ package({
 })
 
 package({
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  config = function()
-    require("which-key").setup({
-      window = {
-        border = "single",
-        position = "bottom",
-      },
-    })
-  end,
-  enabled = env.enable_plugin,
-})
-
-package({
-  "echasnovski/mini.animate",
-  event = "BufEnter",
-  config = function()
-    require("mini.animate").setup()
-  end,
-  enabled = not env.enable_plugin,
-})
-
-package({
   "catppuccin/nvim",
+  event = "BufEnter",
   config = function()
     -- latte, frappe, macchiato, mocha
     --[[ vim.g.catppuccin_flavour = "macchiato"
@@ -57,7 +30,6 @@ package({
     vim.cmd [[colorscheme catppuccin]]
     --]]
   end,
-  event = "BufEnter",
   dependencies = {
     "nvim-treesitter/nvim-treesitter"
   },
@@ -66,12 +38,12 @@ package({
 
 package({
   "folke/tokyonight.nvim",
+  event = "BufEnter",
   config = function()
     --night storm day
     -- require("tokyonight").setup()
     -- vim.cmd[[colorscheme tokyonight-storm]]
   end,
-  event = "BufEnter",
   dependencies = {
     "nvim-treesitter/nvim-treesitter"
   },
@@ -79,38 +51,31 @@ package({
 })
 
 package({
-  "rebelot/kanagawa.nvim",
-  config = function()
-    require("kanagawa").setup({
-        compile = true,
-        undercurl = true,
-        commentStyle = { italic = true },
-        functionStyle = {},
-        keywordStyle = { italic = true},
-        statementStyle = { bold = true },
-        typeStyle = {},
-        transparent = false,
-        dimInactive = false,
-        terminalColors = true,
-        colors = {
-            palette = {},
-            theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-        },
-        overrides = function(colors)
-            return {}
-        end,
-        theme = "dragon",
-        background = {
-            dark = "wave",
-            light = "lotus"
-        },
-    })
-
-    vim.cmd("colorscheme kanagawa")
-  end,
+  "sontungexpt/witch",
+  priority = 1000,
+  lazy = false,
   event = "BufEnter",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter"
-  },
+  config = function(_, opts)
+    require("witch").setup(opts)
+  end,
+  enabled = env.enable_plugin,
+})
+
+package({
+  "rose-pine/neovim",
+  name = "rose-pine",
+  event = "BufEnter",
+  config = function()
+    -- require("rose-pine").setup()
+  end,
+  enabled = env.enable_plugin,
+})
+
+package({
+  "sainnhe/sonokai",
+  event = "BufEnter",
+  config = function()
+
+  end,
   enabled = env.enable_plugin,
 })

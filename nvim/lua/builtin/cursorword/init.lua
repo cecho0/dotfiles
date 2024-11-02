@@ -83,7 +83,7 @@ end
 function M.setup()
   config.ns_id = api.nvim_create_namespace(config.ns_name)
   api.nvim_set_hl(0, config.ns_name, config.style)
-
+  
   api.nvim_create_autocmd("CursorMoved", {
     pattern = "*",
     callback = enable_cursorword,
@@ -92,8 +92,6 @@ function M.setup()
     pattern = "*",
     callback = disable_cursorword,
   })
-
-
 end
 
 return M

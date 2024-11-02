@@ -7,13 +7,28 @@ function config.nvim_lspconfig()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
+  vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local client = vim.lsp.get_clients({ id = args.data.client_id })[1]
+      client.server_capabilities.semanticTokensProvider = nil
+
+      -- TODO hint
+      -- if vim.lsp.inlay_hint then
+      --   if client.server_capabilities.inlayHintProvider then
+      --     vim.lsp.inlay_hint.enable(true)
+      --   end
+      -- end
+    end,
+  })
+
   local signs = {}
   if env.enable_icons then
     signs = {
-      Error = " ",
-      Warn = " ",
-      Info = " ",
-      Hint = " ",
+      Error = "✘",
+      Warn = "",
+      Info = "◉",
+      Hint = "",
     }
   else
     signs = {
@@ -24,54 +39,22 @@ function config.nvim_lspconfig()
     }
   end
 
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-  end
-
   vim.diagnostic.config({
     virtual_text = false,
     float = false,
     update_in_insert = false,
     underline = true,
-    signs = true,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.HINT]  = signs["Hint"],
+        [vim.diagnostic.severity.ERROR] = signs["Error"],
+        [vim.diagnostic.severity.INFO]  = signs["Info"],
+        [vim.diagnostic.severity.WARN]  = signs["Warn"],
+      }
+    },
   })
 
   vim.o.updatetime = 250
-  local on_attach = function(client, bufnr)
-    vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
-    client.server_capabilities.semanticTokensProvider = nil
-    local orignal = vim.notify
-    local mynotify = function(msg, level, opts)
-      if msg == "No code actions available" or msg:find("overly") then
-        return
-      end
-      orignal(msg, level, opts)
-    end
-    vim.notify = mynotify
-
-    if vim.lsp.inlay_hint then
-      if client.server_capabilities.inlayHintProvider then
-        vim.lsp.inlay_hint.enable(true)
-      end
-    end
-
-    api.nvim_create_autocmd("CursorHold", {
-      buffer = bufnr,
-      callback = function()
-        local opts = {
-          focusable = false,
-          close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-          border = "rounded",
-          source = "always",
-          prefix = " ",
-          scope = "cursor",
-        }
-        vim.diagnostic.open_float(nil, opts)
-      end
-    })
-  end
-
   local servers = {
     clangd = require("modules.lsp.lsp_server_config.clangd"),
     lua_ls = require("modules.lsp.lsp_server_config.lua_ls"),
@@ -80,6 +63,7 @@ function config.nvim_lspconfig()
     pyright = require("modules.lsp.lsp_server_config.comm"),
     cmake = require("modules.lsp.lsp_server_config.comm"),
   }
+
   for server, serv_options in pairs(servers) do
     serv_options.on_attach = on_attach
     serv_options.flags = {
@@ -102,13 +86,17 @@ function config.lspsaga()
 
   saga.setup({
     ui = {
+      use_nerd = env.enable_icons,
       theme = "round",
       title = true,
       border = "rounded",
-      devicon = false,
+      devicon = env.enable_icons,
     },
     symbol_in_winbar = {
       enable = true,
+    },
+    lightbulb = {
+      enable = false,
     },
     outline = {
       win_position = "right",
@@ -163,6 +151,7 @@ function config.lspsaga()
     },
   })
 end
+
 
 function config.nvim_cmp()
   local cmp = require("cmp")
@@ -263,8 +252,8 @@ function config.nvim_cmp()
           cmp.select_next_item()
         -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
         -- they way you will only jump inside the snippet region
-        -- elseif luasnip.expand_or_jumpable() then
-        --   luasnip.expand_or_jump()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
         elseif has_words_before() then
           cmp.complete()
         else
@@ -274,8 +263,8 @@ function config.nvim_cmp()
       ["<S-Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
-        -- elseif luasnip.jumpable(-1) then
-        --   luasnip.jump(-1)
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
         else
           fallback()
         end

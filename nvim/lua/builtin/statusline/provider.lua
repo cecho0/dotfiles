@@ -10,6 +10,10 @@ local function get_stl_bg()
   -- return api.nvim_get_hl(0, { name = 'StatusLine' }).bg or 'back'
 end
 
+local function get_space_hl_str()
+  return ('%%#ModeLine%s#%s%%*'):format("space", " ")
+end
+
 local stl_bg = get_stl_bg()
 local function stl_attr(group)
   local color = api.nvim_get_hl(0, { name = group, link = false })
@@ -20,6 +24,7 @@ local function stl_attr(group)
 end
 
 local function group_fmt(prefix, name, val)
+  api.nvim_set_hl(0, ('ModeLine%s%s'):format(prefix, name), { bg = stl_bg })
   return ('%%#ModeLine%s%s#%s%%*'):format(prefix, name, val)
 end
 
@@ -206,7 +211,7 @@ function M.lsp()
     event = { 'LspProgress', 'LspAttach', 'LspDetach', 'BufEnter' },
     attr = {
       bg = stl_bg,
-      fg = "#FF8C00"
+      fg = "#305932"
     }
   }
 end
@@ -241,7 +246,7 @@ function M.gitinfo()
         local parts = ''
         for i = 1, 4 do
           if i == 1 or (type(dict[order[i]]) == 'number' and dict[order[i]] > 0) then
-            parts = ('%s %s'):format(parts, group_fmt('Git', alias[i], signs[i] .. dict[order[i]]))
+            parts = ('%s%s%s'):format(parts, get_space_hl_str(), group_fmt('Git', alias[i], signs[i] .. dict[order[i]]))
           end
         end
         pieces[idx] = parts
@@ -249,6 +254,9 @@ function M.gitinfo()
     end,
     async = true,
     name = 'git',
+    attr = {
+      bg = "None",
+    },
     event = { 'User GitSignsUpdate', 'BufEnter' },
   }
 end
@@ -278,11 +286,11 @@ function M.diagnostic()
     api.nvim_set_hl(0, 'ModeLine' .. diagnostic.severity[i], { fg = fg, bg = stl_bg })
   end
   return {
+    name = "diag",
     stl = diagnostic_info(),
-    name = "diagnostic",
+    event = { 'DiagnosticChanged', 'BufEnter', 'LspAttach' },
     attr = {
     },
-    event = { 'DiagnosticChanged', 'BufEnter', 'LspAttach' },
   }
 end
 

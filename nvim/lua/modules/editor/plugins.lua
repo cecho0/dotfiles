@@ -31,15 +31,6 @@ package({
 })
 
 package({
-  "HiPhish/rainbow-delimiters.nvim",
-  event = "BufEnter",
-  config = function()
-    require("rainbow-delimiters")
-  end,
-  enabled = env.enable_plugin,
-})
-
-package({
   "utilyre/sentiment.nvim",
   event = "BufEnter",
   config = function()
@@ -82,15 +73,15 @@ package({
   enabled = env.enable_plugin,
 })
 
-package({
-  "nvim-pack/nvim-spectre",
-  config = conf.spectre,
-  cmd = "Spectre",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-  },
-  enabled = env.enable_plugin,
-})
+-- package({
+--   "nvim-pack/nvim-spectre",
+--   config = conf.spectre,
+--   cmd = "Spectre",
+--   dependencies = {
+--     "nvim-lua/plenary.nvim",
+--   },
+--   enabled = env.enable_plugin,
+-- })
 
 package({
   "nvimdev/indentmini.nvim",
@@ -105,6 +96,7 @@ package({
   config = function()
     require("colorful-winsep").setup()
   end,
+  enabled = env.enable_plugin,
 })
 
 package({
@@ -113,5 +105,13 @@ package({
   config = function()
     require("neoscroll").setup()
   end,
+  enabled = env.enable_plugin,
 })
+
+-- package({
+--   "kevinhwang91/nvim-bqf",
+--   config = function()
+-- 
+--   end
+-- })
 

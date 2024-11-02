@@ -74,7 +74,7 @@ map("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opt)
 map("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opt)
 map("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opt)
 map({"n", "i", "v"}, "<F2>", "<CMD>Lspsaga outline<CR>", opt)
--- map({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", opt)
+map({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", opt)
 
 -- codewindow
 map("n", "<F3>", '<CMD>lua require("codewindow").toggle_minimap()<CR>', opt )
@@ -87,9 +87,19 @@ map("n", "<leader>fs", "<CMD>Telescope file_browser<CR>", opt)
 map("n", "<leader>ct", "<CMD>Telescope colorscheme theme=dropdown<CR>", opt)
 
 -- spectre
+-- map("n", "<Tab>", "<cmd>lua require('spectre').tab()<cr>", opt)
+-- map("n", "<S-Tab>", "<cmd>lua require('spectre').tab_shift()<cr>", opt)
 map("n", "<leader>S", "<cmd>lua require('spectre').toggle()<CR>", opt)
 map("n", "<leader>sw", "<cmd>lua require('spectre').open_visual({select_word=true})<CR>", opt)
 map("n", "<leader>sf", "<cmd>lua require('spectre').open_file_search({select_word=true})<CR>", opt)
+-- map("n", "dd", "<cmd>lua require('spectre').toggle_line()<CR>", opt)
+-- map("n", "<cr>", "<cmd>lua require('spectre.actions').select_entry()<CR>", opt)
+-- map("n", "<leader>sd", "<cmd>lua require('spectre.actions').send_to_qf()<CR>", opt)
+-- map("n", "<leader>c", "<cmd>lua require('spectre.actions').replace_cmd()<CR>", opt)
+-- map("n", "<leader>o", "<cmd>lua require('spectre').show_options()<CR>", opt)
+-- map("n", "<leader>rc", "<cmd>lua require('spectre.actions').run_current_replace()<CR>", opt)
+-- map("n", "<leader>R", "<cmd>lua require('spectre.actions').run_replace()<CR>", opt)
+-- map("n", "<leader>v", "<cmd>lua require('spectre').change_view()<CR>", opt)
 
 map({"n", "c"}, "<A-x>", "<CMD>ToggleCommandMode<CR>", opt)
 

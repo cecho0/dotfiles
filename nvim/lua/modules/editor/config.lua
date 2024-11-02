@@ -106,8 +106,14 @@ function config.nvim_treesitter()
     highlight = {
       enable = true,
       disable = function(_, buf)
-        return vim.api.nvim_buf_line_count(buf) > 5000
+        local bufname = vim.api.nvim_buf_get_name(buf)
+        local max_filesize = 300 * 1024
+        local ok, stats = pcall(vim.uv.fs_stat, bufname)
+        if ok and stats and stats.size > max_filesize then
+          return true
+        end
       end,
+      additional_vim_regex_highlighting = false,
     },
     incremental_selection = {
       enable = true,
@@ -216,7 +222,7 @@ end
 function config.mini_indent()
   require("indentmini").setup({
     -- char = "|",
-    current = true,
+    only_current = true,
     exclude = {
       "help",
       "alpha",

@@ -2,7 +2,7 @@ local M = {}
 local os_name = vim.loop.os_uname().sysname
 local _enbale_plugin = true
 local _enable_lsp = true
-local _enable_icons = true
+local _enable_icons = false
 
 function M:join_path(...)
   return table.concat({ ... }, M.sep)

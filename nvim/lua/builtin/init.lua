@@ -7,11 +7,11 @@ require("builtin.file").setup()
 require("builtin.notify").setup()
 require("builtin.statusline").setup()
 require("builtin.sessions").setup()
-require("builtin.deadline").setup()
+require("builtin.deadcolumn").setup()
 
 if env.enable_plugin then
   return
 end
-
 require("builtin.term").setup()
+
 --vim.cmd("silent! colorscheme oxygen")

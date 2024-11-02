@@ -87,7 +87,7 @@ opt.showmode       = false
 opt.showcmd        = false
 opt.ruler          = false
 opt.switchbuf      = "useopen"
-opt.colorcolumn    = "100"
+-- opt.colorcolumn    = "100"
 
 -- win size
 opt.winwidth       = 30
