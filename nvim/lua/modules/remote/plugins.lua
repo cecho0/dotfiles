@@ -6,5 +6,5 @@ package({
   "chipsenkbeil/distant.nvim",
   cmd = "Distant",
   config = conf.distant,
-  enabled = env.enable_plugin,
+  enabled = not env.enable_plugin,
 })

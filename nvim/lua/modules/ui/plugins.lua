@@ -17,7 +17,7 @@ package({
   config = function()
     require("codewindow").setup()
   end,
-  enabled = env.enable_plugin,
+  enabled = not env.enable_plugin,
 })
 
 package({

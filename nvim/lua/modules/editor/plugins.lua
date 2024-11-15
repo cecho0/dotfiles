@@ -73,15 +73,15 @@ package({
   enabled = env.enable_plugin,
 })
 
--- package({
---   "nvim-pack/nvim-spectre",
---   config = conf.spectre,
---   cmd = "Spectre",
---   dependencies = {
---     "nvim-lua/plenary.nvim",
---   },
---   enabled = env.enable_plugin,
--- })
+package({
+  "nvim-pack/nvim-spectre",
+  config = conf.spectre,
+  cmd = "Spectre",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+  },
+  enabled = env.enable_plugin,
+})
 
 package({
   "nvimdev/indentmini.nvim",
@@ -111,7 +111,7 @@ package({
 -- package({
 --   "kevinhwang91/nvim-bqf",
 --   config = function()
--- 
+--
 --   end
 -- })
 

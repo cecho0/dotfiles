@@ -9,6 +9,7 @@ local config = {
   style = {
     fg = nil,
     underline = true,
+    bg = "#808080",
   }
 }
 

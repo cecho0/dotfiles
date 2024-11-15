@@ -152,7 +152,6 @@ function config.lspsaga()
   })
 end
 
-
 function config.nvim_cmp()
   local cmp = require("cmp")
   local luasnip = require("luasnip")
